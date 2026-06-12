@@ -17,3 +17,47 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
 .logo{gap:0;font-size:0}.logo>img{display:block;width:124px;height:auto}.footer-grid .logo>img{width:92px}
 @media(max-width:950px){.links.open{position:absolute;top:68px;right:14px;left:14px;display:flex;flex-direction:column;gap:0;padding:12px;border:1px solid var(--line);border-radius:9px;background:#fff;box-shadow:var(--shadow)}.links.open a{padding:12px}}
 @media(max-width:650px){.hero h1 br{display:block}}
+
+/* Legibilidade */
+body{font-size:18px}
+.links a,.nav-actions>a:first-child,.btn,.audience,.hero-copy>p,.check-list li,.play-link,.hero-trust span,.hero-trust b,.values>strong,.values span,.section-title p,.compare-card header,.compare-content li,.benefit-grid h3,.benefit-grid p,.flow-grid h3,.flow-grid p,.result-grid span,.security .check-list li,.faq button,.faq p,.cta p,.cta .btn,.footer-grid p,.footer-grid a,.footer-grid span,.footer-grid>div>b{font-size:18px}
+.section-title h2{font-size:32px}
+.benefit-grid h3,.flow-grid h3{font-size:20px}
+.security h2,.cta h2{font-size:28px}
+.benefit-grid article{min-height:260px}
+.comparison,.benefits,.flows,.results,.security,.faq{padding:64px 0}
+.values{padding:38px 0}
+.faq button{padding:16px 18px}
+.faq p{padding:0 18px 16px;line-height:1.6}
+.footer-grid{gap:28px}
+
+/* CTA */
+.cta{padding-bottom:24px}
+.cta-box{grid-template-columns:40% 60%;min-height:250px}
+.cta img{bottom:-48px;left:22px;width:430px;max-width:38%}
+.cta-box>div{padding:38px 30px}
+.cta p{line-height:1.5}
+.cta .btn{padding:14px 18px}
+
+@media(max-width:950px){
+  .hero-copy{margin-inline:auto;text-align:center}
+  .hero-copy>p{margin-inline:auto}
+  .hero-actions,.hero-trust{justify-content:center}
+  .check-list{text-align:center}
+}
+
+@media(max-width:650px){
+  main,footer{text-align:center}
+  .hero h1{font-size:36px}
+  .hero-actions{flex-direction:column;gap:16px}
+  .hero-trust,.values div{justify-content:center}
+  .compare-card header,.compare-content ul{text-align:center;justify-content:center}
+  .security-grid{justify-items:center}
+  .security .check-list{text-align:center}
+  .faq button{text-align:center}
+  .cta-box>div{padding:38px 20px;text-align:center}
+  .cta h2{font-size:30px}
+  .cta img{display:none}
+  .footer-grid>div{align-items:center}
+  .footer-grid{grid-template-columns:1fr}
+}

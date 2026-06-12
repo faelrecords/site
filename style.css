@@ -136,3 +136,17 @@ body{font-size:18px}
   .phone-badge span{font-size:9px}.phone-badge b{font-size:10px}
   .badge-ai{top:80px;left:-3px}.badge-secure{right:-3px;bottom:55px}
 }
+
+/* Fluxo simplificado */
+.flow-grid{grid-template-columns:1fr 54px 1fr 54px 1fr 54px 1fr;max-width:1020px;margin:auto}
+.result-grid svg{width:38px;height:38px;margin-bottom:12px;color:var(--blue)}
+.result-grid strong{font-size:22px}
+
+@media(max-width:950px){
+  .flow-grid{grid-template-columns:repeat(4,1fr);gap:28px}
+}
+
+@media(max-width:650px){
+  .flow-grid{grid-template-columns:1fr 1fr}
+  .result-grid strong{font-size:19px}
+}

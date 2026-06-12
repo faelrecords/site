@@ -70,6 +70,9 @@ body{font-size:18px}
 .hero-actions{margin:30px 0 34px}
 .hero-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-top:4px;border-top:1px solid #e7edf3}
 .hero-trust div{padding-top:20px}
+.hero-points{display:flex;flex-direction:column;gap:13px;padding:23px 0 0;margin:0;border-top:1px solid #e7edf3;list-style:none}
+.hero-points li{display:flex;align-items:center;color:#465267;font-size:18px;font-weight:600;line-height:1.35}
+.hero-points li::before{width:9px;height:9px;margin-right:12px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(51,165,14,.12);content:""}
 
 /* Comparação equilibrada */
 .comparison-grid{align-items:stretch}
@@ -85,6 +88,7 @@ body{font-size:18px}
   .hero-grid{grid-template-columns:1fr}
   .hero h1,.hero-copy>p{margin-inline:auto}
   .hero-trust{border-top:0}
+  .hero-points{max-width:390px;margin-inline:auto;align-items:flex-start;text-align:left}
 }
 
 @media(max-width:650px){
@@ -93,6 +97,8 @@ body{font-size:18px}
   .hero-copy>p{font-size:18px}
   .hero-trust{grid-template-columns:1fr;max-width:280px;gap:18px;margin-inline:auto}
   .hero-trust div{padding-top:0}
+  .hero-actions{margin-bottom:28px}
+  .hero-points{max-width:310px;padding-top:22px}
   .compare-card{min-height:0;padding:22px 18px}
   .compare-content{grid-template-columns:1fr}
   .compare-content img{height:210px}

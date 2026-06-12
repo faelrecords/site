@@ -22,15 +22,15 @@ function animatePhone(){
   if(!phoneRender||!phoneSection||reducedMotion.matches)return;
 
   const rect=phoneSection.getBoundingClientRect();
-  const travel=window.innerHeight+rect.height;
-  const progress=Math.max(0,Math.min(1,(window.innerHeight-rect.top)/travel));
-  const centered=(progress-.5)*2;
+  const start=Math.max(0,phoneSection.offsetTop-window.innerHeight*.12);
+  const travel=Math.max(420,phoneSection.offsetHeight*.9);
+  const progress=Math.max(0,Math.min(1,(scrollY-start)/travel));
   const mobile=window.innerWidth<=650;
 
-  phoneRender.style.setProperty("--phone-rx",`${(-centered*(mobile?3:7)).toFixed(2)}deg`);
-  phoneRender.style.setProperty("--phone-ry",`${(centered*(mobile?7:16)).toFixed(2)}deg`);
-  phoneRender.style.setProperty("--phone-rz",`${(-centered*(mobile?1:2.5)).toFixed(2)}deg`);
-  phoneRender.style.setProperty("--phone-y",`${(-progress*(mobile?12:24)).toFixed(1)}px`);
+  phoneRender.style.setProperty("--phone-rx",`${(Math.sin(progress*Math.PI*2)*(mobile?3:6)).toFixed(2)}deg`);
+  phoneRender.style.setProperty("--phone-ry",`${(progress*360).toFixed(2)}deg`);
+  phoneRender.style.setProperty("--phone-rz",`${(Math.sin(progress*Math.PI*2)*(mobile?1:2)).toFixed(2)}deg`);
+  phoneRender.style.setProperty("--phone-y",`${(-Math.sin(progress*Math.PI)*(mobile?10:20)).toFixed(1)}px`);
 }
 
 function requestPhoneFrame(){

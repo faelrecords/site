@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 620">
+  <path d="M0 535c160-110 277-96 413-14 147 89 272 55 437-80v179H0z" fill="#2792ae"/>
+  <path d="M0 580c181-78 292-42 430 17 129 55 267 10 420-95v118H0z" fill="#ffffff"/>
+  <circle cx="370" cy="142" r="70" fill="#f5b58c"/>
+  <path d="M306 132c6-72 115-96 139-17-39-8-79-5-139 17z" fill="#09142f"/>
+  <path d="M332 146h8M398 146h8M354 177c18 14 36 14 55 0" fill="none" stroke="#09142f" stroke-width="7" stroke-linecap="round"/>
+  <path d="M270 262c23-67 171-67 203 0l54 220H205z" fill="#33a50e"/>
+  <path d="M306 259v223M432 259v223" stroke="#287f0c" stroke-width="8"/>
+  <rect x="398" y="306" width="266" height="166" rx="18" fill="#09142f"/>
+  <rect x="420" y="328" width="222" height="118" rx="8" fill="#eaf8e6"/>
+  <text x="531" y="403" text-anchor="middle" font-family="Arial" font-size="52" font-weight="700" fill="#33a50e">GT</text>
+  <path d="M286 288c-46-43-76-65-118-49-41 15-42 65-4 86l97 55" fill="#f5b58c"/>
+  <rect x="94" y="201" width="100" height="174" rx="20" fill="#09142f"/>
+  <rect x="106" y="218" width="76" height="132" rx="12" fill="#ffffff"/>
+  <circle cx="144" cy="260" r="22" fill="#33a50e"/><path d="m132 260 8 8 17-20" fill="none" stroke="#fff" stroke-width="6"/>
+  <circle cx="710" cy="112" r="55" fill="#eaf8e6"/><path d="M682 112h56M710 84v56" stroke="#2792ae" stroke-width="12" stroke-linecap="round"/>
+  <rect x="594" y="55" width="115" height="58" rx="16" fill="#ffffff" stroke="#33a50e" stroke-width="6"/>
+  <path d="M617 78h69M617 94h44" stroke="#09142f" stroke-width="7" stroke-linecap="round"/>
+</svg>

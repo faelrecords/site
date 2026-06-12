@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620">
+  <circle cx="380" cy="310" r="84" fill="#33a50e"/>
+  <text x="380" y="335" text-anchor="middle" font-family="Arial" font-size="64" font-weight="700" fill="#fff">GT</text>
+  <g fill="#fff" stroke="#09142f" stroke-width="7">
+    <circle cx="380" cy="85" r="72"/><circle cx="602" cy="225" r="72"/><circle cx="520" cy="500" r="72"/><circle cx="240" cy="500" r="72"/><circle cx="158" cy="225" r="72"/>
+  </g>
+  <g fill="none" stroke="#33a50e" stroke-width="18" stroke-linecap="round">
+    <path d="M449 100c64 20 105 55 134 91"/><path d="m571 160 18 33-36-3"/>
+    <path d="M639 292c2 69-26 123-73 166"/><path d="m599 445-35 17 5-37"/>
+    <path d="M458 547c-55 25-105 26-160 0"/><path d="m321 570-31-24 37-7"/>
+    <path d="M194 458c-48-42-74-96-73-161"/><path d="m101 326 20-32 16 35"/>
+    <path d="M177 159c48-45 94-62 153-67"/><path d="m306 73 32 18-33 19"/>
+  </g>
+  <path d="M344 79h72v78h-72z" fill="#eaf8e6"/><path d="M358 100h44M358 122h31" stroke="#2792ae" stroke-width="8"/>
+  <rect x="568" y="193" width="68" height="54" rx="20" fill="#2792ae"/><circle cx="588" cy="220" r="6" fill="#fff"/><circle cx="602" cy="220" r="6" fill="#fff"/><circle cx="616" cy="220" r="6" fill="#fff"/>
+  <path d="M491 466h58v70h-58z" fill="#eaf8e6"/><path d="M504 484h32M504 503h32M504 522h22" stroke="#33a50e" stroke-width="7"/>
+  <circle cx="240" cy="500" r="31" fill="#2792ae"/><path d="m222 500 12 12 25-29" fill="none" stroke="#fff" stroke-width="8"/>
+  <rect x="124" y="190" width="68" height="58" rx="12" fill="#eaf8e6"/><path d="M139 208h38M139 226h26" stroke="#33a50e" stroke-width="7"/>
+</svg>

@@ -41,14 +41,7 @@ function animatePhone(){
   const start=Math.max(0,phoneSection.offsetTop-window.innerHeight*.16);
   const travel=Math.max(480,phoneSection.offsetHeight);
   const progress=Math.max(0,Math.min(1,(scrollY-start)/travel));
-  const mobile=window.innerWidth<=650;
   const state=Math.min(2,Math.floor(progress*3));
-  const local=(progress*3)-state;
-  const arc=Math.sin(Math.min(1,local)*Math.PI);
-
-  phoneRender.style.setProperty("--phone-rx",`${(-arc*(mobile?2:5)).toFixed(2)}deg`);
-  phoneRender.style.setProperty("--phone-ry",`${((local-.5)*(mobile?28:56)).toFixed(2)}deg`);
-  phoneRender.style.setProperty("--phone-y",`${(-arc*(mobile?8:16)).toFixed(1)}px`);
   phoneStates.forEach((image,index)=>image.classList.toggle("is-active",index===state));
   phoneDots.forEach((dot,index)=>dot.classList.toggle("active",index===state));
 }

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 760">
+  <rect x="85" y="18" width="350" height="724" rx="58" fill="#09142f"/>
+  <rect x="102" y="38" width="316" height="684" rx="43" fill="#ffffff"/>
+  <path d="M102 81a43 43 0 0 1 43-43h230a43 43 0 0 1 43 43v92H102z" fill="#33a50e"/>
+  <rect x="205" y="49" width="110" height="25" rx="13" fill="#09142f"/>
+  <circle cx="151" cy="116" r="27" fill="#ffffff"/>
+  <text x="151" y="124" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#33a50e">GT</text>
+  <text x="191" y="109" font-family="Arial" font-size="18" font-weight="700" fill="#ffffff">Escritório Almeida</text>
+  <text x="191" y="136" font-family="Arial" font-size="14" fill="#ffffff">Agente de IA online</text>
+  <rect x="126" y="204" width="238" height="82" rx="18" fill="#eaf8e6"/>
+  <text x="145" y="231" font-family="Arial" font-size="14" font-weight="700" fill="#33a50e">Agente fiscal</text>
+  <text x="145" y="257" font-family="Arial" font-size="15" fill="#09142f">Olá. Como posso ajudar?</text>
+  <rect x="184" y="309" width="208" height="94" rx="18" fill="#d8f2d0"/>
+  <text x="204" y="339" font-family="Arial" font-size="15" fill="#09142f">Preciso do informe</text>
+  <text x="204" y="365" font-family="Arial" font-size="15" fill="#09142f">de rendimentos.</text>
+  <rect x="126" y="428" width="252" height="112" rx="18" fill="#eaf8e6"/>
+  <text x="145" y="459" font-family="Arial" font-size="15" fill="#09142f">Encontrei o documento.</text>
+  <text x="145" y="485" font-family="Arial" font-size="15" fill="#09142f">Confirme os últimos</text>
+  <text x="145" y="511" font-family="Arial" font-size="15" fill="#09142f">dígitos do CPF.</text>
+  <rect x="216" y="565" width="176" height="70" rx="18" fill="#d8f2d0"/>
+  <text x="238" y="607" font-family="Arial" font-size="18" fill="#09142f">0042</text>
+  <rect x="126" y="661" width="224" height="38" rx="19" fill="#eef2f4"/>
+  <circle cx="384" cy="680" r="20" fill="#2792ae"/>
+  <path d="m376 680 14-8-5 16-3-6z" fill="#ffffff"/>
+  <g transform="translate(7 280)">
+    <rect width="155" height="90" rx="18" fill="#ffffff" stroke="#33a50e" stroke-width="4"/>
+    <circle cx="36" cy="35" r="18" fill="#33a50e"/>
+    <path d="M28 35h16M36 27v16" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <text x="62" y="35" font-family="Arial" font-size="14" font-weight="700" fill="#09142f">Agente de IA</text>
+    <text x="62" y="58" font-family="Arial" font-size="13" fill="#2792ae">personalizado</text>
+  </g>
+</svg>

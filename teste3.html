@@ -9,153 +9,145 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="teste3.css?v=2">
+  <link rel="stylesheet" href="teste3.css?v=3">
 </head>
 <body>
-  <header class="header" id="inicio">
-    <div class="container nav">
-      <a class="logo" href="#inicio"><img src="assets/brand/gtchat-color.png" alt="GTchat"></a>
-      <button class="menu" type="button" aria-label="Abrir menu" aria-expanded="false"><i></i><i></i><i></i></button>
-      <nav class="links" aria-label="Navegação principal">
-        <div class="dropdown">
-          <button type="button" aria-expanded="false">Recursos <span>⌄</span></button>
-          <div class="test-menu">
-            <a href="teste1.html"><b>Teste 1</b><small>Produto 3D</small></a>
-            <a href="teste2.html"><b>Teste 2</b><small>Flat design</small></a>
-            <a href="teste3.html"><b>Teste 3</b><small>Conversão contábil</small></a>
-          </div>
+  <header class="t3-header">
+    <a class="t3-logo" href="#inicio"><img src="assets/brand/gtchat-white.png" alt="GTchat"></a>
+    <nav>
+      <a href="#ia-integrada">Soluções</a>
+      <div class="t3-dropdown">
+        <button type="button" aria-expanded="false">Recursos <span>⌄</span></button>
+        <div class="t3-menu">
+          <a href="teste1.html"><b>Teste 1</b><small>Produto 3D</small></a>
+          <a href="teste2.html"><b>Teste 2</b><small>Flat design</small></a>
+          <a href="teste3.html"><b>Teste 3</b><small>Conversão contábil</small></a>
         </div>
-      </nav>
-      <a class="btn nav-cta" href="#reuniao">Agendar Demonstração</a>
-    </div>
+      </div>
+      <a href="#jornada">Jornada</a>
+      <a class="t3-login" href="#reuniao">Agendar demonstração</a>
+    </nav>
+    <button class="t3-mobile-menu" aria-label="Abrir menu" aria-expanded="false">☰</button>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container two-col">
-        <div class="media animate from-left">
-          <img src="assets/images/teste3/hero.png" alt="Profissional usando o GTchat">
+    <section class="t3-hero" id="inicio">
+      <div class="t3-container t3-hero-grid">
+        <div class="t3-hero-copy reveal from-left">
+          <p class="t3-overline">Atendimento contábil inteligente</p>
+          <h1>Automatize o atendimento contábil no <em>WhatsApp com IA.</em></h1>
+          <h2>Envie Boletos de honorários, atenda 24/7 e muito mais sem congestionar sua equipe.</h2>
+          <p>O GTchat responde dúvidas, envia boletos e faz triagem 24h por dia. Integrado à <strong>API Oficial do WhatsApp</strong>, é pronto pra operar em qualquer escritório contábil.</p>
+          <a class="t3-btn" href="#reuniao">Agendar demonstração gratuita</a>
         </div>
-        <div class="copy animate from-right">
-          <h1>Automatize o atendimento contábil no WhatsApp com IA.</h1>
-          <h2 class="highlight blue">Envie Boletos de honorários, atenda 24/7 e muito mais sem congestionar sua equipe.</h2>
-          <p>O GTchat responde dúvidas, envia boletos e faz triagem 24h por dia. Integrado à <strong>API Oficial do WhatsApp</strong>, é pronto pra operar em qualquer <strong>escritório contábil.</strong></p>
-          <a class="btn" href="#reuniao">AGENDAR DEMONSTRAÇÃO GRATUITA</a>
+        <img class="reveal from-right" src="assets/images/teste3/hero.png" alt="Profissional usando o GTchat">
+      </div>
+      <div class="t3-hero-curve"></div>
+    </section>
+
+    <section class="t3-green" id="ia-integrada">
+      <div class="t3-container">
+        <div class="t3-split">
+          <div class="reveal from-left">
+            <span class="t3-number">01</span>
+            <h2>Não deixe seus clientes esperando <em>com nossa IA integrada</em></h2>
+            <p>Com a IA de atendimento do GTchat, sua equipe ganha tempo, seus clientes recebem atenção instantânea e o seu resultado aumenta.</p>
+            <ul>
+              <li>Atendimento inteligente 24/7</li>
+              <li>Automação do envio de Boletos de Honorário</li>
+              <li>Separação de atendimento por setor</li>
+              <li>Monitore e controle a qualidade de cada atendimento</li>
+            </ul>
+            <strong>GTchat faz integração com WhatsApp, Facebook e Instagram tudo reunido em uma única ferramenta!</strong>
+          </div>
+          <img class="reveal from-right" src="assets/images/teste3/ai-attendance.png" alt="Atendimento com agente de IA">
+        </div>
+
+        <div class="t3-meta reveal">
+          <div class="t3-meta-logo"><span>∞</span><div><b>Meta</b><small>Business Partners</small></div></div>
+          <div><h2>O GTchat é um parceiro verificado da META.</h2><p>O Meta Business Partner Certified Company é um selo de qualidade que garante que as empresas que o possuem são especialistas em marketing digital da Meta e estão altamente capacitadas para ajudar as empresas a alcançar seus objetivos.</p><p>De acordo com dados da Meta, apenas <strong>1% das empresas possuem esse certificado. E o GTchat está nessa lista.</strong></p></div>
         </div>
       </div>
     </section>
 
-    <section class="section section-light" id="ia-integrada">
-      <div class="container two-col">
-        <div class="copy animate from-left">
-          <h2>Não deixe seus clientes esperando <span class="highlight">com nossa IA integrada</span></h2>
-          <p>Com a <strong>IA de atendimento</strong> do GTchat, sua equipe <strong>ganha tempo</strong>, seus clientes recebem atenção instantânea e o seu <strong>resultado aumenta.</strong></p>
-          <ul class="checklist">
-            <li class="animate delay-1"><span class="check">✓</span>Atendimento inteligente 24/7</li>
-            <li class="animate delay-2"><span class="check">✓</span>Automação do envio de Boletos de Honorário</li>
-            <li class="animate delay-3"><span class="check">✓</span>Separação de atendimento por setor</li>
-            <li class="animate delay-4"><span class="check">✓</span>Monitore e controle a qualidade de cada atendimento</li>
-          </ul>
-          <strong class="integration">GTchat faz integração com WhatsApp, Facebook e Instagram tudo reunido em uma única ferramenta!</strong>
+    <section class="t3-story" id="jornada">
+      <div class="t3-container">
+        <div class="t3-center reveal">
+          <p class="t3-overline">Tecnologia aplicada à operação</p>
+          <h2>Uma jornada contábil organizada<br>do atendimento aos resultados.</h2>
         </div>
-        <div class="media animate from-right">
-          <img src="assets/images/teste3/ai-attendance.png" alt="Atendimento com agente de IA">
-        </div>
-      </div>
-    </section>
-
-    <section class="meta-section" id="meta">
-      <div class="container meta-grid">
-        <div class="meta-logo animate from-left" aria-label="Meta Business Partners">
-          <span>∞</span>
-          <div><strong>Meta</strong><small>Business Partners</small></div>
-        </div>
-        <div class="animate from-right">
-          <h2>O GTchat é um parceiro verificado da META.</h2>
-          <p>O Meta Business Partner Certified Company é um selo de qualidade que garante que as empresas que o possuem são especialistas em marketing digital da Meta e estão altamente capacitadas para ajudar as empresas a alcançar seus objetivos.</p>
-          <p>De acordo com dados da Meta, apenas <strong>1% das empresas possuem esse certificado. E o GTchat está nessa lista.</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section proof" id="depoimento">
-      <div class="container">
-        <header class="section-heading animate">
-          <h2>Depoimento de uma Contabilidade que automatizou seus processos com a <span class="blue">Inteligência Artificial do GTchat</span></h2>
-        </header>
-        <div class="proof-grid">
-          <article class="quote animate from-left">
-            <h3><i></i>Triunfo Contabilidade</h3>
-            <div class="person"><span>FX</span><p><strong>Francisco Xavier | Sócio Administrador</strong><small>Triunfo Contabilidade</small></p></div>
-            <p>Desde que implementamos o GTchat em nossa rotina em 2022, a <strong>organização do envio de Boletos de atendimento via WhatsApp melhorou significativamente.</strong> A ferramenta trouxe mais agilidade e segurança, garantindo que as interações com nossos clientes sejam registradas e acompanhadas de perto. <strong>Monitorando as conversas e avaliando os atendimentos, conseguimos identificar pontos de melhoria</strong> e aprimorar nossa comunicação.</p>
+        <div class="t3-timeline">
+          <div class="t3-timeline-progress"></div>
+          <article class="timeline-left">
+            <span></span>
+            <div><h3>Atendimento imediato com IA</h3><p>Clientes recebem atenção instantânea, enquanto o GTchat responde dúvidas, envia boletos e faz triagem 24h por dia.</p></div>
+            <img src="assets/images/teste3/ai-attendance.png" alt="IA integrada ao atendimento">
           </article>
-          <div class="video-card animate from-right">
+          <article class="timeline-right">
+            <span></span>
+            <div><h3>Organização em 1º lugar</h3><p>Mantenha sua equipe alinhada, com fila por atendente, atendimento integrado e conversas centralizadas.</p></div>
+            <img src="assets/images/teste3/organization.png" alt="Organização dos atendimentos">
+          </article>
+          <article class="timeline-left">
+            <span></span>
+            <div><h3>Indicadores para melhorar</h3><p>Acompanhe informações valiosas, identifique áreas de melhoria e tome decisões para otimizar o atendimento ao cliente.</p></div>
+            <img src="assets/images/teste3/dashboard.png" alt="Painel de métricas">
+          </article>
+          <article class="timeline-right">
+            <span></span>
+            <div><h3>Resultados acompanhados pela equipe</h3><p>Reúna operação, pessoas e agentes de IA para escalar o atendimento com clareza.</p></div>
+            <img src="assets/images/teste3/meeting.png" alt="Equipe analisando resultados">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="t3-proof">
+      <div class="t3-container">
+        <div class="t3-center reveal">
+          <h2>Depoimento de uma Contabilidade que automatizou seus processos com a <em>Inteligência Artificial do GTchat</em></h2>
+        </div>
+        <div class="t3-proof-grid">
+          <blockquote class="reveal from-left">
+            <h3>Triunfo Contabilidade</h3>
+            <cite>Francisco Xavier | Sócio Administrador</cite>
+            <p>Desde que implementamos o GTchat em nossa rotina em 2022, a organização do envio de Boletos de atendimento via WhatsApp melhorou significativamente. A ferramenta trouxe mais agilidade e segurança, garantindo que as interações com nossos clientes sejam registradas e acompanhadas de perto. Monitorando as conversas e avaliando os atendimentos, conseguimos identificar pontos de melhoria e aprimorar nossa comunicação.</p>
+          </blockquote>
+          <div class="t3-video reveal from-right">
             <img src="assets/images/teste3/testimonial.png" alt="História de sucesso da Triunfo Contabilidade">
-            <a class="youtube-btn" href="https://www.youtube.com/watch?v=W20bAMbNaDk" target="_blank" rel="noopener">▶ Assistir no YouTube</a>
+            <a href="https://www.youtube.com/watch?v=W20bAMbNaDk" target="_blank" rel="noopener">▶ Assistir no YouTube</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section-light" id="organizacao">
-      <div class="container two-col">
-        <div class="media animate from-left"><img src="assets/images/teste3/organization.png" alt="Organização dos atendimentos"></div>
-        <div class="copy animate from-right">
-          <h2 class="highlight">Organização em 1º lugar</h2>
-          <p>Mantenha sua equipe alinhada e os atendimentos <strong>sob controle com:</strong></p>
-          <ul class="checklist">
-            <li class="animate delay-1"><span class="check">✓</span>Fila de atendimento por atendente</li>
-            <li class="animate delay-2"><span class="check">✓</span>Atendimento de forma integrada</li>
-            <li class="animate delay-3"><span class="check">✓</span>Centralização de mensagens do WhatsApp, Facebook e Instagram</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="metricas">
-      <div class="container two-col reverse">
-        <div class="copy animate from-left">
-          <h2 class="highlight">Melhore o atendimento da sua equipe!</h2>
-          <p>Obtenha de forma prática e rápida os <strong>principais indicadores de atendimento</strong> da sua empresa. Com o GTchat, você tem acesso a <strong>informações valiosas</strong> que impulsionam a performance da sua equipe. <strong>Monitore</strong> facilmente o desempenho, <strong>identifique áreas de melhoria</strong> e tome decisões informadas para otimizar o atendimento ao cliente.</p>
-        </div>
-        <div class="media animate from-right"><img src="assets/images/teste3/dashboard.png" alt="Painel de métricas do GTchat"></div>
-      </div>
-    </section>
-
-    <section class="section section-light meeting" id="reuniao">
-      <div class="container two-col">
-        <div class="form-card animate from-left">
+    <section class="t3-cta" id="reuniao">
+      <div class="t3-container t3-cta-grid">
+        <div class="t3-form-card reveal from-left">
           <h2>Reunião GTchat</h2>
           <p>Está na hora de transformar o seu atendimento e escalar a sua empresa!</p>
-          <form class="form">
+          <form class="t3-form">
             <label><span>Sua empresa</span><input name="empresa" required></label>
-            <div class="form-pair">
-              <label><span>Nome</span><input name="nome" required></label>
-              <label><span>Sobrenome</span><input name="sobrenome" required></label>
-            </div>
+            <div><label><span>Nome</span><input name="nome" required></label><label><span>Sobrenome</span><input name="sobrenome" required></label></div>
             <label><span>Telefone</span><input name="telefone" inputmode="tel" required></label>
             <label><span>Email</span><input name="email" type="email" required></label>
             <label><span>Quantidade de atendentes</span><input name="atendentes" type="number" min="1" required></label>
             <label><span>Cidade</span><input name="cidade" required></label>
-            <label class="consent"><input name="consentimento" type="checkbox" required><span>Concordo em receber comunicações e conteúdos de marketing do GTchat.</span></label>
-            <button class="btn" type="submit">Enviar</button>
-            <p class="success" role="status">Solicitação enviada.</p>
+            <label class="t3-consent"><input name="consentimento" type="checkbox" required><span>Concordo em receber comunicações e conteúdos de marketing do GTchat.</span></label>
+            <button class="t3-btn" type="submit">Enviar</button>
+            <p class="t3-success" role="status">Solicitação enviada.</p>
           </form>
         </div>
-        <div class="media animate from-right"><img src="assets/images/teste3/meeting.png" alt="Reunião analisando resultados com o GTchat"></div>
+        <img class="reveal from-right" src="assets/images/teste3/meeting.png" alt="Reunião analisando resultados com o GTchat">
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div><img class="footer-logo" src="assets/brand/gtchat-white.png" alt="GTchat"></div>
-      <div><strong>Endereço</strong><p>R. Goiás, 1070 — Centro, Lagoa da Prata — MG, 35590-058</p></div>
-      <div><strong>Conheça nosso Instagram</strong><a href="https://www.instagram.com/gtchat.com.br/" target="_blank" rel="noopener" aria-label="Instagram GTchat">◎ Instagram</a><a href="mailto:contato@gtchat.com.br">contato@gtchat.com.br</a></div>
-      <div class="footer-meta"><span>∞</span><b>Meta</b><small>Business Partners</small></div>
-    </div>
-    <div class="container footer-bottom"><a href="#">Política de Privacidade</a><span>|</span><a href="#">Termos de Uso</a></div>
+  <footer>
+    <img src="assets/brand/gtchat-color.png" alt="GTchat">
+    <span>R. Goiás, 1070 — Centro, Lagoa da Prata — MG, 35590-058</span>
+    <a href="mailto:contato@gtchat.com.br">contato@gtchat.com.br</a>
   </footer>
-  <script src="teste3.js?v=2"></script>
+  <script src="teste3.js?v=3"></script>
 </body>
 </html>

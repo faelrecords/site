@@ -6,7 +6,8 @@
 
 /* Teste 3: timeline editorial e curvas fluidas */
 .t3-hero h2{color:var(--blue)}
-.t3-hero-curve{right:auto;left:50%;width:110vw;transform:translateX(-50%)}
+.t3-hero{background:linear-gradient(120deg,#09142f 0%,#0d1b3b 100%)}
+.t3-hero-curve{right:auto;bottom:-1px;left:50%;width:140vw;height:135px;border-radius:0;background:var(--green);clip-path:ellipse(55% 100% at 50% 100%);transform:translateX(-50%)}
 .t3-green::after,.t3-story::after,.t3-cta::before{right:auto;left:50%;width:110vw;transform:translateX(-50%)}
 .t3-story{background:linear-gradient(#09142f,#14285d 72%,#2792ae)}
 .t3-timeline{max-width:1040px}

@@ -3,3 +3,31 @@
 @media(max-width:800px){.t3-header nav{position:absolute;top:74px;right:20px;display:none;width:250px;flex-direction:column;align-items:stretch;padding:18px;border-radius:14px;background:#fff}.t3-header nav.open{display:flex}.t3-header nav>a,.t3-dropdown>button{color:var(--navy);text-align:left}.t3-mobile-menu{display:block}.t3-menu{position:static;width:100%;visibility:visible;display:none;box-shadow:none;opacity:1;transform:none}.t3-dropdown.open .t3-menu{display:grid;transform:none}.t3-hero{min-height:920px;padding-top:125px}.t3-hero-grid,.t3-split,.t3-meta,.t3-proof-grid,.t3-cta-grid{grid-template-columns:1fr;gap:35px}.t3-hero h1{font-size:42px}.t3-hero h2{font-size:24px}.t3-hero-copy{text-align:center}.t3-hero-grid>img{width:100%;margin:0}.t3-split{padding:60px 0}.t3-split h2,.t3-center h2,.t3-proof .t3-center h2,.t3-form-card h2{font-size:34px}.t3-split img{width:100%;margin:0}.t3-meta-logo{max-width:300px}.t3-timeline::before,.t3-timeline-progress{left:8px}.t3-timeline article.timeline-left,.t3-timeline article.timeline-right{width:auto;margin-left:38px;text-align:left;transform:translateX(70px)}.t3-timeline article.timeline-left>span,.t3-timeline article.timeline-right>span{right:auto;left:-37px}.t3-timeline article.timeline-active{transform:none}.t3-cta-grid>img{order:2}footer{flex-wrap:wrap}footer span{width:100%;order:3}}
 @media(max-width:520px){.t3-container{width:min(100% - 30px,1120px)}.t3-hero{min-height:900px}.t3-hero h1{font-size:36px}.t3-green{padding-top:90px}.t3-split strong{font-size:18px}.t3-meta{padding:25px 20px}.t3-timeline article{min-height:360px}.t3-proof blockquote{padding:24px 20px}.t3-form-card{padding:25px 18px}.t3-form>div{grid-template-columns:1fr}.reveal.from-left,.reveal.from-right{transform:translateY(35px)}.reveal.visible{transform:none}}
 @media(prefers-reduced-motion:reduce){.reveal,.t3-timeline article{opacity:1;transform:none;transition:none}}
+
+/* Teste 3: timeline editorial e curvas fluidas */
+.t3-hero h2{color:var(--blue)}
+.t3-hero-curve{right:auto;left:50%;width:110vw;transform:translateX(-50%)}
+.t3-green::after,.t3-story::after,.t3-cta::before{right:auto;left:50%;width:110vw;transform:translateX(-50%)}
+.t3-story{background:linear-gradient(#09142f,#14285d 72%,#2792ae)}
+.t3-timeline{max-width:1040px}
+.t3-timeline::before{transform:translateX(-1px)}
+.t3-timeline-progress{transform:translateX(-2px) scaleY(var(--line-progress,0))}
+.t3-timeline article,.t3-timeline article.timeline-left,.t3-timeline article.timeline-right{display:grid;width:100%;min-height:390px;margin-left:0;grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);align-items:center;align-content:center;text-align:left;transform:none;transition:opacity .65s ease}
+.t3-timeline article>span,.t3-timeline article.timeline-left>span,.t3-timeline article.timeline-right>span{position:relative;top:auto;right:auto;left:auto;z-index:3;grid-column:2;grid-row:1;justify-self:center}
+.timeline-copy,.timeline-art{grid-row:1;transition:opacity .8s ease,transform .9s cubic-bezier(.2,.75,.2,1)}
+.timeline-copy{opacity:0}
+.t3-timeline .timeline-art{width:112%;height:auto;max-height:330px;margin:0;object-fit:contain;opacity:0}
+.timeline-left .timeline-copy{grid-column:1;text-align:right;transform:translateX(-70px)}
+.timeline-left .timeline-art{grid-column:3;justify-self:start;transform:translateX(70px) scale(.94)}
+.timeline-right .timeline-copy{grid-column:3;text-align:left;transform:translateX(70px)}
+.timeline-right .timeline-art{grid-column:1;justify-self:end;transform:translateX(-70px) scale(.94)}
+.t3-timeline article.timeline-active .timeline-copy,.t3-timeline article.timeline-active .timeline-art{opacity:1;transform:none}
+
+@media(max-width:800px){
+  .t3-timeline::before{left:8px;transform:translateX(-1px)}
+  .t3-timeline-progress{left:8px;transform:translateX(-2px) scaleY(var(--line-progress,0))}
+  .t3-timeline article,.t3-timeline article.timeline-left,.t3-timeline article.timeline-right{display:block;width:auto;min-height:440px;margin-left:40px;text-align:left}
+  .t3-timeline article>span,.t3-timeline article.timeline-left>span,.t3-timeline article.timeline-right>span{position:absolute;top:8px;left:-39.5px}
+  .timeline-left .timeline-copy,.timeline-right .timeline-copy{transform:translateX(45px);text-align:left}
+  .t3-timeline .timeline-art{width:100%;max-height:270px;margin-top:28px;transform:translateX(45px) scale(.95)}
+}

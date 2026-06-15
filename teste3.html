@@ -3,153 +3,159 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="GTchat: agentes de IA para atendimento contábil no WhatsApp.">
+  <meta name="description" content="GTchat: atendimento contábil no WhatsApp com agentes de IA.">
   <title>GTchat Contabilidade | Teste 3</title>
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="teste3.css?v=1">
+  <link rel="stylesheet" href="teste3.css?v=2">
 </head>
 <body>
-  <header class="t3-header" id="inicio">
-    <div class="t3-container t3-nav">
-      <a class="t3-logo" href="#inicio"><img src="assets/brand/gtchat-color.png" alt="GTchat"></a>
-      <button class="t3-menu" type="button" aria-label="Abrir menu" aria-expanded="false"><i></i><i></i><i></i></button>
-      <nav class="t3-links">
-        <a href="#solucoes">Soluções</a>
-        <div class="t3-dropdown">
+  <header class="header" id="inicio">
+    <div class="container nav">
+      <a class="logo" href="#inicio"><img src="assets/brand/gtchat-color.png" alt="GTchat"></a>
+      <button class="menu" type="button" aria-label="Abrir menu" aria-expanded="false"><i></i><i></i><i></i></button>
+      <nav class="links" aria-label="Navegação principal">
+        <div class="dropdown">
           <button type="button" aria-expanded="false">Recursos <span>⌄</span></button>
-          <div class="t3-test-menu">
+          <div class="test-menu">
             <a href="teste1.html"><b>Teste 1</b><small>Produto 3D</small></a>
             <a href="teste2.html"><b>Teste 2</b><small>Flat design</small></a>
             <a href="teste3.html"><b>Teste 3</b><small>Conversão contábil</small></a>
           </div>
         </div>
-        <a href="#meta">Integrações</a>
-        <a href="#depoimento">Resultados</a>
-        <a href="#reuniao">Contato</a>
       </nav>
-      <a class="t3-btn t3-btn-small" href="#reuniao">Agendar demonstração</a>
+      <a class="btn nav-cta" href="#reuniao">Agendar Demonstração</a>
     </div>
   </header>
 
   <main>
-    <section class="t3-hero">
-      <div class="t3-container t3-hero-grid">
-        <div class="t3-hero-art t3-reveal-left">
-          <img src="assets/images/teste3/hero.png" alt="Profissional usando agentes de IA do GTchat">
+    <section class="hero">
+      <div class="container two-col">
+        <div class="media animate from-left">
+          <img src="assets/images/teste3/hero.png" alt="Profissional usando o GTchat">
         </div>
-        <div class="t3-copy t3-reveal-right">
-          <h1>Automatize o atendimento contábil no WhatsApp com IA. <em>Envie boletos de honorários, atenda 24/7 e muito mais sem congestionar sua equipe.</em></h1>
-          <p>O <strong>GTchat</strong> responde dúvidas, envia boletos e faz triagem 24h por dia. Integrado à <strong>API Oficial do WhatsApp</strong> e pronto para operar em qualquer <strong>escritório contábil.</strong></p>
-          <a class="t3-btn" href="#reuniao">Agendar demonstração gratuita</a>
+        <div class="copy animate from-right">
+          <h1>Automatize o atendimento contábil no WhatsApp com IA.</h1>
+          <h2 class="highlight blue">Envie Boletos de honorários, atenda 24/7 e muito mais sem congestionar sua equipe.</h2>
+          <p>O GTchat responde dúvidas, envia boletos e faz triagem 24h por dia. Integrado à <strong>API Oficial do WhatsApp</strong>, é pronto pra operar em qualquer <strong>escritório contábil.</strong></p>
+          <a class="btn" href="#reuniao">AGENDAR DEMONSTRAÇÃO GRATUITA</a>
         </div>
       </div>
     </section>
 
-    <section class="t3-section t3-ai" id="solucoes">
-      <div class="t3-container t3-split">
-        <div class="t3-copy t3-reveal-left">
-          <h2>Não deixe seus clientes esperando <em>com nossa IA integrada</em></h2>
-          <p>Com a <strong>IA de atendimento</strong> do GTchat, sua equipe <strong>ganha tempo</strong>, seus clientes recebem atenção instantânea e seu <strong>resultado aumenta.</strong></p>
-          <ul class="t3-checks">
-            <li>Atendimento inteligente 24/7</li>
-            <li>Automação do envio de boletos de honorário</li>
-            <li>Separação de atendimento por setor</li>
-            <li>Monitoramento da qualidade de cada atendimento</li>
+    <section class="section section-light" id="ia-integrada">
+      <div class="container two-col">
+        <div class="copy animate from-left">
+          <h2>Não deixe seus clientes esperando <span class="highlight">com nossa IA integrada</span></h2>
+          <p>Com a <strong>IA de atendimento</strong> do GTchat, sua equipe <strong>ganha tempo</strong>, seus clientes recebem atenção instantânea e o seu <strong>resultado aumenta.</strong></p>
+          <ul class="checklist">
+            <li class="animate delay-1"><span class="check">✓</span>Atendimento inteligente 24/7</li>
+            <li class="animate delay-2"><span class="check">✓</span>Automação do envio de Boletos de Honorário</li>
+            <li class="animate delay-3"><span class="check">✓</span>Separação de atendimento por setor</li>
+            <li class="animate delay-4"><span class="check">✓</span>Monitore e controle a qualidade de cada atendimento</li>
           </ul>
-          <h3>GTchat faz integração com WhatsApp, Facebook e Instagram tudo reunido em uma única ferramenta!</h3>
+          <strong class="integration">GTchat faz integração com WhatsApp, Facebook e Instagram tudo reunido em uma única ferramenta!</strong>
         </div>
-        <div class="t3-art t3-reveal-right">
-          <img src="assets/images/teste3/ai-attendance.png" alt="Atendimento conjunto entre equipe e agente de IA">
+        <div class="media animate from-right">
+          <img src="assets/images/teste3/ai-attendance.png" alt="Atendimento com agente de IA">
         </div>
       </div>
     </section>
 
-    <section class="t3-meta" id="meta">
-      <div class="t3-container t3-meta-grid t3-reveal">
-        <div class="t3-meta-badge"><span>∞</span><strong>Meta</strong><small>Business Partner</small></div>
-        <div>
-          <h2>O GTchat é um parceiro verificado da META</h2>
+    <section class="meta-section" id="meta">
+      <div class="container meta-grid">
+        <div class="meta-logo animate from-left" aria-label="Meta Business Partners">
+          <span>∞</span>
+          <div><strong>Meta</strong><small>Business Partners</small></div>
+        </div>
+        <div class="animate from-right">
+          <h2>O GTchat é um parceiro verificado da META.</h2>
           <p>O Meta Business Partner Certified Company é um selo de qualidade que garante que as empresas que o possuem são especialistas em marketing digital da Meta e estão altamente capacitadas para ajudar as empresas a alcançar seus objetivos.</p>
-          <p>De acordo com dados da Meta, apenas <strong>1% das empresas possuem esse certificado.</strong> E o GTchat está nessa lista.</p>
+          <p>De acordo com dados da Meta, apenas <strong>1% das empresas possuem esse certificado. E o GTchat está nessa lista.</strong></p>
         </div>
       </div>
     </section>
 
-    <section class="t3-section t3-proof" id="depoimento">
-      <div class="t3-container">
-        <div class="t3-heading t3-reveal">
-          <h2>Depoimento de uma Contabilidade que automatizou seus processos com a <em>Inteligência Artificial do GTchat</em></h2>
-        </div>
-        <div class="t3-proof-grid">
-          <article class="t3-quote t3-reveal-left">
+    <section class="section proof" id="depoimento">
+      <div class="container">
+        <header class="section-heading animate">
+          <h2>Depoimento de uma Contabilidade que automatizou seus processos com a <span class="blue">Inteligência Artificial do GTchat</span></h2>
+        </header>
+        <div class="proof-grid">
+          <article class="quote animate from-left">
             <h3><i></i>Triunfo Contabilidade</h3>
-            <div class="t3-person"><span>FX</span><p><strong>Francisco Xavier | Sócio Administrador</strong><small>Triunfo Contabilidade</small></p></div>
-            <p>Desde que implementamos o GTchat em nossa rotina em 2022, a <strong>organização dos atendimentos via WhatsApp melhorou significativamente.</strong> A ferramenta trouxe mais agilidade e segurança, garantindo que as interações com nossos clientes sejam registradas e acompanhadas de perto. <strong>Monitorando as conversas e avaliando os atendimentos, conseguimos identificar pontos de melhoria</strong> e aprimorar nossa comunicação.</p>
+            <div class="person"><span>FX</span><p><strong>Francisco Xavier | Sócio Administrador</strong><small>Triunfo Contabilidade</small></p></div>
+            <p>Desde que implementamos o GTchat em nossa rotina em 2022, a <strong>organização do envio de Boletos de atendimento via WhatsApp melhorou significativamente.</strong> A ferramenta trouxe mais agilidade e segurança, garantindo que as interações com nossos clientes sejam registradas e acompanhadas de perto. <strong>Monitorando as conversas e avaliando os atendimentos, conseguimos identificar pontos de melhoria</strong> e aprimorar nossa comunicação.</p>
           </article>
-          <div class="t3-video t3-reveal-right">
+          <div class="video-card animate from-right">
             <img src="assets/images/teste3/testimonial.png" alt="História de sucesso da Triunfo Contabilidade">
+            <a class="youtube-btn" href="https://www.youtube.com/watch?v=W20bAMbNaDk" target="_blank" rel="noopener">▶ Assistir no YouTube</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="t3-section t3-features">
-      <div class="t3-container">
-        <div class="t3-feature-row">
-          <div class="t3-feature-art t3-reveal-left"><img src="assets/images/teste3/organization.png" alt="Atendimentos organizados em um só lugar"></div>
-          <div class="t3-copy t3-reveal-right">
-            <h2><em>Organização em<br>1º lugar</em></h2>
-            <p>Mantenha sua equipe alinhada e os atendimentos <strong>sob controle com:</strong></p>
-            <ul class="t3-list"><li>Fila de atendimento por atendente</li><li>Atendimento de forma integrada</li><li>Centralização de mensagens do WhatsApp, Facebook e Instagram</li></ul>
-          </div>
-        </div>
-        <div class="t3-feature-row reverse">
-          <div class="t3-copy t3-reveal-left">
-            <h2><em>Melhore o atendimento da sua equipe!</em></h2>
-            <p>Obtenha de forma prática e rápida os <strong>principais indicadores de atendimento</strong> da sua empresa.</p>
-            <p>Com o GTchat, você tem acesso a <strong>informações valiosas</strong> que impulsionam a performance da sua equipe.</p>
-            <p><strong>Monitore</strong> facilmente o desempenho, <strong>identifique áreas de melhoria</strong> e tome decisões informadas para otimizar o atendimento ao cliente.</p>
-          </div>
-          <div class="t3-feature-art t3-reveal-right"><img src="assets/images/teste3/dashboard.png" alt="Painel de indicadores de atendimento"></div>
+    <section class="section section-light" id="organizacao">
+      <div class="container two-col">
+        <div class="media animate from-left"><img src="assets/images/teste3/organization.png" alt="Organização dos atendimentos"></div>
+        <div class="copy animate from-right">
+          <h2 class="highlight">Organização em 1º lugar</h2>
+          <p>Mantenha sua equipe alinhada e os atendimentos <strong>sob controle com:</strong></p>
+          <ul class="checklist">
+            <li class="animate delay-1"><span class="check">✓</span>Fila de atendimento por atendente</li>
+            <li class="animate delay-2"><span class="check">✓</span>Atendimento de forma integrada</li>
+            <li class="animate delay-3"><span class="check">✓</span>Centralização de mensagens do WhatsApp, Facebook e Instagram</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section class="t3-section t3-meeting" id="reuniao">
-      <div class="t3-container t3-meeting-grid">
-        <div class="t3-form-wrap t3-reveal-left">
+    <section class="section" id="metricas">
+      <div class="container two-col reverse">
+        <div class="copy animate from-left">
+          <h2 class="highlight">Melhore o atendimento da sua equipe!</h2>
+          <p>Obtenha de forma prática e rápida os <strong>principais indicadores de atendimento</strong> da sua empresa. Com o GTchat, você tem acesso a <strong>informações valiosas</strong> que impulsionam a performance da sua equipe. <strong>Monitore</strong> facilmente o desempenho, <strong>identifique áreas de melhoria</strong> e tome decisões informadas para otimizar o atendimento ao cliente.</p>
+        </div>
+        <div class="media animate from-right"><img src="assets/images/teste3/dashboard.png" alt="Painel de métricas do GTchat"></div>
+      </div>
+    </section>
+
+    <section class="section section-light meeting" id="reuniao">
+      <div class="container two-col">
+        <div class="form-card animate from-left">
           <h2>Reunião GTchat</h2>
           <p>Está na hora de transformar o seu atendimento e escalar a sua empresa!</p>
-          <form class="t3-form">
+          <form class="form">
             <label><span>Sua empresa</span><input name="empresa" required></label>
-            <div class="t3-form-pair">
+            <div class="form-pair">
               <label><span>Nome</span><input name="nome" required></label>
               <label><span>Sobrenome</span><input name="sobrenome" required></label>
             </div>
             <label><span>Telefone</span><input name="telefone" inputmode="tel" required></label>
-            <label><span>E-mail</span><input name="email" type="email" required></label>
+            <label><span>Email</span><input name="email" type="email" required></label>
             <label><span>Quantidade de atendentes</span><input name="atendentes" type="number" min="1" required></label>
             <label><span>Cidade</span><input name="cidade" required></label>
-            <small>Ao enviar, você concorda em receber comunicações do GTchat.</small>
-            <button class="t3-btn" type="submit">Enviar</button>
-            <p class="t3-success" role="status">Solicitação enviada.</p>
+            <label class="consent"><input name="consentimento" type="checkbox" required><span>Concordo em receber comunicações e conteúdos de marketing do GTchat.</span></label>
+            <button class="btn" type="submit">Enviar</button>
+            <p class="success" role="status">Solicitação enviada.</p>
           </form>
         </div>
-        <div class="t3-meeting-art t3-reveal-right"><img src="assets/images/teste3/meeting.png" alt="Equipe analisando resultados com GTchat"></div>
+        <div class="media animate from-right"><img src="assets/images/teste3/meeting.png" alt="Reunião analisando resultados com o GTchat"></div>
       </div>
     </section>
   </main>
 
-  <footer class="t3-footer">
-    <div class="t3-container t3-footer-grid">
-      <div><img src="assets/brand/gtchat-white.png" alt="GTchat"><p>Agentes de IA personalizados para atendimento contábil.</p></div>
-      <div><strong>Endereço</strong><p>R. Goiás, 1070 – Centro, Lagoa da Prata – MG, 35590-058</p></div>
-      <div><strong>Contato</strong><a href="mailto:contato@gtchat.com.br">contato@gtchat.com.br</a><a href="#">Política de Privacidade</a></div>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div><img class="footer-logo" src="assets/brand/gtchat-white.png" alt="GTchat"></div>
+      <div><strong>Endereço</strong><p>R. Goiás, 1070 — Centro, Lagoa da Prata — MG, 35590-058</p></div>
+      <div><strong>Conheça nosso Instagram</strong><a href="https://www.instagram.com/gtchat.com.br/" target="_blank" rel="noopener" aria-label="Instagram GTchat">◎ Instagram</a><a href="mailto:contato@gtchat.com.br">contato@gtchat.com.br</a></div>
+      <div class="footer-meta"><span>∞</span><b>Meta</b><small>Business Partners</small></div>
     </div>
+    <div class="container footer-bottom"><a href="#">Política de Privacidade</a><span>|</span><a href="#">Termos de Uso</a></div>
   </footer>
-  <script src="teste3.js?v=1"></script>
+  <script src="teste3.js?v=2"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
-const menu = document.querySelector('.t3-menu');
-const links = document.querySelector('.t3-links');
-const dropdown = document.querySelector('.t3-dropdown');
+const menu = document.querySelector('.menu');
+const links = document.querySelector('.links');
+const dropdown = document.querySelector('.dropdown');
 const dropdownButton = dropdown?.querySelector(':scope > button');
 
 menu?.addEventListener('click', () => {
@@ -19,25 +19,18 @@ document.addEventListener('click', () => {
   dropdownButton?.setAttribute('aria-expanded', 'false');
 });
 
-document.querySelectorAll('.t3-links a').forEach((link) => {
-  link.addEventListener('click', () => {
-    links.classList.remove('open');
-    menu?.setAttribute('aria-expanded', 'false');
-  });
-});
-
-const revealObserver = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.16 });
+}, { threshold: 0.15 });
 
-document.querySelectorAll('.t3-reveal,.t3-reveal-left,.t3-reveal-right').forEach((element) => revealObserver.observe(element));
+document.querySelectorAll('.animate').forEach((element) => observer.observe(element));
 
-document.querySelector('.t3-form')?.addEventListener('submit', (event) => {
+document.querySelector('.form')?.addEventListener('submit', (event) => {
   event.preventDefault();
   event.currentTarget.classList.add('sent');
 });

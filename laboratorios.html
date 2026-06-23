@@ -1348,15 +1348,15 @@
             margin: 0 auto;
         }
 
-        .ai-illus-inline .chat-typing { align-self: flex-start; border-bottom-left-radius: 16px; margin: 0 auto 0 0; }
+        .ai-illus-inline .chat-typing { align-self: flex-start !important; border-bottom-left-radius: 16px; margin: 0 auto 0 0; }
         .ai-illus-inline .chat-typing::before { left: -6px; transform: none; bottom: 0; }
-        .ai-illus-inline .chat-incoming { align-self: flex-start; border-bottom-left-radius: 4px; margin: 0 auto 0 0; max-width: 100%; }
+        .ai-illus-inline .chat-incoming { align-self: flex-start !important; border-bottom-left-radius: 4px; margin: 0 auto 0 0; max-width: 100%; }
         .ai-illus-inline .chat-incoming::before { left: -6px; bottom: 0; transform: none; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
         .ai-illus-inline .flow-line { margin: 6px auto; }
-        .ai-illus-inline .ai-brain-box { align-self: center; margin: 0 auto; max-width: 100%; }
-        .ai-illus-inline .chat-typing-outgoing { align-self: flex-end; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; margin: 0 0 0 auto; }
+        .ai-illus-inline .ai-brain-box { align-self: center !important; margin: 0 auto; max-width: 100%; }
+        .ai-illus-inline .chat-typing-outgoing { align-self: flex-end !important; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; margin: 0 0 0 auto; }
         .ai-illus-inline .chat-typing-outgoing::before { left: auto; right: -6px; bottom: 0; transform: none; }
-        .ai-illus-inline .chat-outgoing { align-self: flex-end; border-bottom-right-radius: 4px; margin: 0 0 0 auto; max-width: 100%; }
+        .ai-illus-inline .chat-outgoing { align-self: flex-end !important; border-bottom-right-radius: 4px; margin: 0 0 0 auto; max-width: 100%; }
         .ai-illus-inline .chat-outgoing::before { right: -6px; bottom: 0; left: auto; transform: none; clip-path: polygon(0 0, 0 100%, 100% 100%); }
 
         .btn-block {
@@ -2460,6 +2460,7 @@
             .product-section--grid .product-content { order: 1; text-align: center; }
             .product-section--grid .product-illustration { order: 2; }
             .product-section--grid .product-cta { order: 3; text-align: center; }
+            .product-cta .btn { display: block !important; width: 95% !important; margin-left: auto !important; margin-right: auto !important; }
             .quality-illus { max-width: 100%; }
             .quality-card { width: 100%; }
             .quality-bar { flex-wrap: wrap; }

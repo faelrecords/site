@@ -1,0 +1,3562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTChat - Automação e Atendimento com IA para Laboratórios</title>
+    <meta name="description" content="GTChat - Plataforma de automação e atendimento com Inteligência Artificial via WhatsApp para laboratórios. Agendamentos, resultados e lembretes automatizados.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #33a50e;
+            --green-dark: #2a8a0b;
+            --green-light: #e8f5e3;
+            --blue: #2792ae;
+            --blue-dark: #1f7a93;
+            --blue-light: #e6f4f7;
+            --white: #ffffff;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-400: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', -apple-system, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 18px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .header.scrolled {
+            padding: 12px 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: scale(1.05);
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .nav a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-800);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav a:not(.btn):hover {
+            color: var(--green);
+        }
+
+        .nav a:not(.btn)::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--green);
+            transition: var(--transition);
+        }
+
+        .nav a:not(.btn):hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(51,165,14,0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-header {
+            background: var(--green) !important;
+            color: var(--white) !important;
+            box-shadow: 0 4px 15px rgba(51,165,14,0.3);
+            border: none !important;
+        }
+
+        .btn-header:hover {
+            background: var(--green-dark) !important;
+            color: var(--white) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(51,165,14,0.4);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown button {
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-800);
+            cursor: pointer;
+            font-family: inherit;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        .nav-dropdown button:hover {
+            color: var(--green);
+        }
+
+        .test-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-dropdown.open .test-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .test-menu a {
+            display: block;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .test-menu a:hover {
+            background: var(--green-light);
+        }
+
+        .test-menu a b {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 2px;
+        }
+
+        .test-menu a span {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .btn-secondary {
+            background: var(--blue);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(39,146,174,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: var(--blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(39,146,174,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--green);
+            border: 2px solid var(--green);
+        }
+
+        .btn-outline:hover {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--green);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+
+        .nav-logo-mobile {
+            display: none;
+        }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            padding: 160px 0 120px;
+            background: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle 250px at var(--hero-mouse-x, 50%) var(--hero-mouse-y, 50%), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 250px at var(--hero-mouse-x, 50%) var(--hero-mouse-y, 50%), black 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0,0,0,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            left: var(--hero-mouse-x, 50%);
+            top: var(--hero-mouse-y, 50%);
+            transition: left 0.15s ease-out, top 0.15s ease-out;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(39,146,174,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            left: var(--hero-mouse-x, 50%);
+            top: var(--hero-mouse-y, 50%);
+            transition: left 0.15s ease-out, top 0.15s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(51,165,14,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(39,146,174,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-light);
+            color: var(--green);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--gray-900);
+            margin-bottom: 0;
+            padding-bottom: 0;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero-subtitle {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+            margin-top: -5px;
+            padding-top: 0;
+        }
+
+        .hero-subtitle strong {
+            color: var(--green);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1, .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            .hero h1 .rotating-text {
+                min-width: auto;
+            }
+        }
+
+        .hero h1 .highlight {
+            color: var(--green);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1 .rotating-text {
+            display: inline-block;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .hero h1 .rotating-text .word {
+            display: none;
+            white-space: nowrap;
+        }
+
+        .hero h1 .rotating-text .word.active {
+            display: inline-block;
+        }
+
+        .hero h1 .rotating-text .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: var(--green);
+            margin-left: 4px;
+            animation: blink 0.7s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 650px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+
+        /* ==================== LOGOS SECTION ==================== */
+        .logos-section {
+            padding: 80px 0;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .logos-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logos-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .logos-line {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            margin: 0 auto;
+            border-radius: 3px;
+        }
+
+        .logos-marquee {
+            width: 100%;
+            overflow: hidden;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        .logos-marquee::before,
+        .logos-marquee::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .logos-marquee::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--white), transparent);
+        }
+
+        .logos-marquee::after {
+            right: 0;
+            background: linear-gradient(270deg, var(--white), transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 0 30px;
+        }
+
+        .marquee-content img {
+            height: 50px;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .marquee-content img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .marquee-left {
+            animation: scrollLeft 30s linear infinite;
+        }
+
+        .marquee-right {
+            animation: scrollRight 30s linear infinite;
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scrollRight {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .trust-content {
+            text-align: center;
+            padding: 50px 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .trust-text {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        /* ==================== SECTION TITLES ==================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== FEATURES GRID ==================== */
+        .features-section {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 40px 32px;
+            border-radius: var(--radius);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .feature-icon.green { background: var(--green-light); }
+        .feature-icon.blue { background: var(--blue-light); }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* ==================== PRODUCT SECTIONS ==================== */
+        .product-section {
+            padding: 100px 0;
+        }
+
+        .product-section:nth-child(even) {
+            background: var(--gray-50);
+        }
+
+        .product-row {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .product-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .product-content {
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .product-label.blue { color: var(--blue); }
+
+        .product-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .product-content > p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            margin-bottom: 28px;
+            line-height: 1.8;
+        }
+
+        .product-list {
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .product-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        .product-list li .check {
+            width: 24px;
+            height: 24px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .product-list li .check svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--green);
+        }
+
+        .product-illustration {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Illustrations */
+        .illus-box {
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Centralized Hub */
+        .hub-illus {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .hub-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(51,165,14,0.3);
+            z-index: 2;
+        }
+
+        .hub-center svg {
+            width: 44px;
+            height: 44px;
+            fill: white;
+        }
+
+        .hub-node {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            z-index: 2;
+            transition: var(--transition);
+            top: 50%;
+            left: 50%;
+        }
+
+        .hub-node:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .hub-node svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .hub-node:nth-child(3) { transform: translate(-50%, -50%) translate(0, -110px); }
+        .hub-node:nth-child(4) { transform: translate(-50%, -50%) translate(95px, -55px); }
+        .hub-node:nth-child(5) { transform: translate(-50%, -50%) translate(95px, 55px); }
+        .hub-node:nth-child(6) { transform: translate(-50%, -50%) translate(0, 110px); }
+        .hub-node:nth-child(7) { transform: translate(-50%, -50%) translate(-95px, 55px); }
+        .hub-node:nth-child(8) { transform: translate(-50%, -50%) translate(-95px, -55px); }
+
+        .hub-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            border: 2px dashed rgba(51,165,14,0.2);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* AI Brain */
+        .ai-illus {
+            position: relative;
+            width: 350px;
+            height: 400px;
+        }
+
+        .ai-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Chat Bubbles */
+        .chat-bubble {
+            padding: 14px 18px;
+            border-radius: 16px;
+            max-width: 240px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .ai-flow > * {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .ai-flow > .flow-line {
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+
+        .ai-flow > .chat-typing {
+            transform: translateY(16px) scale(0.95);
+        }
+
+        .ai-flow.chat-active > * {
+            transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .ai-flow.chat-active > .flow-line {
+            transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .ai-flow.chat-active > .visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .ai-flow.chat-active > .flow-line.visible {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        .ai-flow.chat-active > .hidden {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.95);
+            pointer-events: none;
+            height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        @keyframes chatPopIn {
+            0% { opacity: 0; transform: translateY(16px) scale(0.95); }
+            60% { opacity: 1; }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Typing Indicator */
+        .chat-typing {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--white);
+            padding: 14px 20px;
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow);
+            align-self: flex-start;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .chat-typing::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -6px;
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        }
+
+        .chat-typing span {
+            width: 7px;
+            height: 7px;
+            background: var(--gray-400);
+            border-radius: 50%;
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+
+        .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+        .chat-typing-outgoing {
+            background: linear-gradient(135deg, var(--green), #2d9a0a);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 16px;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        .chat-typing-outgoing::before {
+            left: auto;
+            right: -6px;
+            background: var(--green);
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
+
+        .chat-typing-outgoing span {
+            background: rgba(255,255,255,0.7);
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        .chat-incoming {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            margin-right: auto;
+        }
+
+        .chat-incoming::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -6px;
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        }
+
+        .chat-incoming strong {
+            color: var(--gray-800);
+        }
+
+        .chat-incoming span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            margin-top: 6px;
+        }
+
+        .chat-outgoing {
+            background: linear-gradient(135deg, var(--green), #2d9a0a);
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            margin-left: auto;
+        }
+
+        .chat-outgoing::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -6px;
+            width: 12px;
+            height: 12px;
+            background: var(--green);
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
+
+        .chat-outgoing strong {
+            color: var(--white);
+        }
+
+        /* Animated Flow Lines */
+        .flow-line {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--green), var(--blue));
+            position: relative;
+            margin: 6px 0;
+            border-radius: 3px;
+            overflow: hidden;
+            opacity: 0;
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+
+        .flow-line[data-step="line1"] {
+            height: 48px;
+            margin: 10px 0;
+        }
+
+        .ai-flow.chat-active > .flow-line.visible {
+            animation: flowLineGrow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes flowLineGrow {
+            0% { opacity: 0; transform: scaleY(0); }
+            100% { opacity: 1; transform: scaleY(1); }
+        }
+
+        .flow-line::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: flowDown 1.5s linear infinite paused;
+        }
+
+        .ai-flow.chat-active > .flow-line.visible::before {
+            animation-play-state: running;
+        }
+
+        @keyframes flowDown {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        .flow-line::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--blue);
+            opacity: 0;
+            transition: opacity 0.3s ease 0.3s;
+        }
+
+        .ai-flow.chat-active > .flow-line.visible::after {
+            opacity: 1;
+        }
+
+        /* AI Brain Box */
+        .ai-brain-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            border-radius: 14px;
+            color: var(--white);
+            box-shadow: 0 8px 25px rgba(39,146,174,0.4);
+            position: relative;
+            z-index: 1;
+            animation: brainGlow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.4; filter: blur(1px); }
+            100% { opacity: 0.8; filter: blur(2px); }
+        }
+
+        .ai-brain-box::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--green), var(--blue), var(--green));
+            z-index: -1;
+            opacity: 0.6;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes brainGlow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(39,146,174,0.4); }
+            50% { box-shadow: 0 8px 35px rgba(39,146,174,0.6), 0 0 20px rgba(39,146,174,0.3); }
+        }
+
+        .ai-brain-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ai-brain-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+        }
+
+        .ai-brain-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .ai-brain-text span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        /* Pulse Animation on Brain */
+        .ai-brain-box::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.6; }
+        }
+
+        .product-section--grid .product-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .product-section--grid .product-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .product-section--grid .product-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .product-section--grid .product-illustration {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .product-section--grid .product-illustration::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 70% 60% at center, black 20%, transparent 72%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at center, black 20%, transparent 72%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: var(--radius);
+        }
+
+        .product-section--grid .product-illustration > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quality-illus-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+            width: 100%;
+        }
+
+        .ai-illus-inline {
+            margin: 40px 0;
+            width: 100%;
+        }
+
+        .ai-illus-inline .ai-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .ai-illus-inline .chat-incoming { align-self: center; border-bottom-left-radius: 16px; margin: 0 auto; max-width: 100%; }
+        .ai-illus-inline .chat-incoming::before { left: 50%; transform: translateX(-50%) rotate(45deg); bottom: -6px; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+        .ai-illus-inline .chat-typing { align-self: center; border-bottom-left-radius: 16px; margin: 0 auto; }
+        .ai-illus-inline .chat-typing::before { left: 50%; transform: translateX(-50%); bottom: -6px; }
+        .ai-illus-inline .flow-line { margin: 6px auto; }
+        .ai-illus-inline .ai-brain-box { align-self: center; margin: 0 auto; max-width: 100%; }
+        .ai-illus-inline .chat-typing-outgoing { align-self: center; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; margin: 0 auto; }
+        .ai-illus-inline .chat-typing-outgoing::before { left: 50%; right: auto; transform: translateX(-50%) rotate(-45deg); }
+        .ai-illus-inline .chat-outgoing { align-self: center; border-bottom-right-radius: 16px; margin: 0 auto; max-width: 100%; }
+        .ai-illus-inline .chat-outgoing::before { right: auto; left: 50%; transform: translateX(-50%) rotate(-45deg); clip-path: polygon(100% 0, 0 0, 100% 100%); }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .product-section--tight .product-row {
+            gap: 40px;
+        }
+
+        .product-section--tight .product-illustration {
+            flex: 1.2;
+        }
+
+        .product-section--tight .illus-box {
+            max-width: 540px;
+        }
+
+        /* Quality Control */
+        .quality-illus {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .quality-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quality-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quality-score svg {
+            width: 28px;
+            height: 28px;
+            color: #f59e0b;
+            fill: #f59e0b;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .quality-bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .quality-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quality-bar span:first-child {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            min-width: 70px;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--gray-100);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), #4ade80);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bar-fill-blue {
+            background: linear-gradient(90deg, var(--blue), #67d4e8);
+        }
+
+        .bar-fill-green {
+            background: linear-gradient(90deg, #33a50e, #6dd40e);
+        }
+
+        @keyframes barGrow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .bar-value {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green);
+            min-width: 35px;
+            text-align: right;
+        }
+
+        /* Multichannel */
+        .multi-illus {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .channel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            text-align: center;
+            margin-bottom: 56px;
+            line-height: 1.4;
+        }
+
+        .channel-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .channel-pill {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+        }
+
+        .channel-pill:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .channel-pill svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .pill-whatsapp { background: #25D366; }
+        .pill-instagram { background: #E4405F; }
+        .pill-facebook { background: #1877F2; }
+
+        .pill-whatsapp-main {
+            width: 78px;
+            height: 78px;
+            margin-top: -24px;
+        }
+
+        .pill-whatsapp-main svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .flow-svg-col {
+            width: 100%;
+            height: 50px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flow-svg {
+            width: 200px;
+            height: 50px;
+        }
+
+        .flow-path {
+            stroke-dashoffset: 0;
+            animation: flowDash 1.2s linear infinite;
+        }
+
+        .flow-path-2 {
+            animation-delay: 0.2s;
+        }
+
+        .flow-path-3 {
+            animation-delay: 0.4s;
+        }
+
+        .flow-path-down {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes flowDash {
+            to { stroke-dashoffset: -20; }
+        }
+
+        .gtchat-hub {
+            width: 90px;
+            height: 90px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .gtchat-icon-img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .flow-down-col {
+            width: 4px;
+            height: 50px;
+        }
+
+        .flow-down-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .gtchat-label-box {
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            border-radius: 14px;
+            padding: 12px 20px;
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            max-width: 240px;
+            box-shadow: 0 8px 25px rgba(39,146,174,0.4);
+            position: relative;
+            z-index: 1;
+            animation: brainGlow 2.5s ease-in-out infinite;
+            line-height: 1.4;
+        }
+
+        .gtchat-label-box span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        .gtchat-label-box::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--green), var(--blue), var(--green));
+            z-index: -1;
+            opacity: 0.6;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        /* ==================== TIMELINE ==================== */
+        .timeline-section {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .timeline-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .timeline-section > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -6px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -6px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .timeline-content:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+            border-color: var(--green);
+        }
+
+        .timeline-content:hover::before {
+            border-color: var(--green);
+        }
+
+        .timeline-step {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: calc(100% - var(--line-progress, 100%));
+            background: linear-gradient(180deg, var(--green), var(--blue), var(--green), transparent);
+            border-radius: 4px;
+            transition: height 0.15s ease-out;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            top: var(--arrow-top, 0%);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid var(--green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline.animate::after {
+            opacity: 0.7;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 0 60px 60px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 8px;
+            width: 24px;
+            height: 24px;
+            background: var(--green);
+            border: 5px solid var(--white);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 0 5px rgba(51,165,14,0.15), 0 4px 12px rgba(51,165,14,0.3);
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .timeline.animate .timeline-dot {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 8px rgba(51,165,14,0.2), 0 6px 20px rgba(51,165,14,0.4);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -12px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -12px;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            transform: translateX(30px);
+        }
+
+        .timeline.animate .timeline-item.visible .timeline-content {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline:not(.animate) .timeline-item .timeline-content {
+            opacity: 0;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -6px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -6px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .timeline-content:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+            border-color: var(--green);
+        }
+
+        .timeline-content:hover::before {
+            border-color: var(--green);
+        }
+
+        .timeline-step {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-90);
+            margin-bottom: 12px;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* ==================== DASHBOARD ==================== */
+        .dashboard-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--gray-900) 0%, #1a1a2e 100%);
+            color: var(--white);
+        }
+
+        .dashboard-section .section-label { color: var(--green); }
+        .dashboard-section .section-title { color: var(--white); }
+        .dashboard-section .section-subtitle { color: rgba(255,255,255,0.6); }
+
+        .dash-mockup {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+        }
+
+        .dash-dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .dash-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dash-dot.r { background: #ff5f56; }
+        .dash-dot.y { background: #ffbd2e; }
+        .dash-dot.g { background: #27c93f; }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .dash-card {
+            background: rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: var(--transition);
+        }
+
+        .dash-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+
+        .dash-card-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .dash-card-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 8px;
+        }
+
+        /* ==================== TESTIMONIALS ==================== */
+        .testimonials-section {
+            padding: 100px 0;
+            background: var(--gray-50);
+        }
+
+        .testimonials-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 36px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: none;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        .testimonial-center {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-center:hover {
+            transform: scale(1.05) translateY(-4px);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-stars svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffc107;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1rem;
+            color: var(--gray-800);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .testimonial-avatar-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 0.95rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ==================== MEETING SECTION ==================== */
+        .meeting-section {
+            padding: 100px 0;
+            background: var(--gray-50);
+        }
+
+        .meeting-row {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .meeting-content {
+            flex: 1;
+        }
+
+        .meeting-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .meeting-content > p {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .meeting-benefits {
+            margin-bottom: 0;
+        }
+
+        .meeting-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        .meeting-benefits li .check {
+            width: 24px;
+            height: 24px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .meeting-benefits li .check svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--green);
+        }
+
+        .meeting-form-wrapper {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .meeting-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px rgba(51,165,14,0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+            padding: 16px 32px;
+            font-size: 1rem;
+        }
+
+        .form-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            .meeting-row {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .meeting-content {
+                text-align: center;
+            }
+            .meeting-benefits {
+                text-align: left;
+            }
+            .meeting-benefits li {
+                justify-content: flex-start;
+            }
+            .meeting-form-wrapper {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        /* ==================== CTA ==================== */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--green) 0%, #2d9a0a 50%, var(--blue) 100%);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 36px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 70px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.5);
+            margin-top: 16px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .footer-social svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 2.8rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-row, .product-row.reverse { flex-direction: column; }
+            .product-row.reverse { flex-direction: column-reverse; }
+            .product-section--tight .product-row { flex-direction: column-reverse; }
+            .product-section--grid .product-row { flex-direction: column; }
+            .product-section--grid .product-row.reverse { flex-direction: column-reverse; }
+            .product-section--grid .product-content { text-align: center; }
+            .product-section--grid .product-list { text-align: left; }
+            .product-section--grid .product-list li { justify-content: flex-start; }
+            .product-row { text-align: center; }
+            .product-list { text-align: left; }
+            .product-list li { justify-content: flex-start; }
+            .timeline::before { left: 30px; transform: none; }
+            .timeline::after { left: 30px; transform: translateX(-50%); }
+            .timeline-item { width: 100%; left: 0 !important; padding: 0 20px 50px 70px; text-align: left !important; }
+            .timeline-dot { left: 20px !important; right: auto !important; }
+            .dash-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { flex-wrap: wrap; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .nav.active {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(20px);
+                justify-content: flex-start;
+                align-items: center;
+                gap: 24px;
+                z-index: 999;
+                padding-top: 100px;
+                overflow-y: auto;
+            }
+            .nav.active a { font-size: 1.2rem; }
+            .mobile-toggle { display: block; }
+            .hero { padding: 140px 0 80px; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { gap: 30px; flex-wrap: wrap; }
+            .hero-stat-value { font-size: 2rem; }
+            .section-title { font-size: 1.8rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .dash-grid { grid-template-columns: 1fr 1fr; }
+            .testimonials-grid { flex-direction: column; flex-wrap: wrap; }
+            .testimonial-center { transform: none; order: -1; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .cta-section h2 { font-size: 2rem; }
+            .product-row.reverse { flex-direction: column-reverse; }
+            .product-row.reverse .product-content { text-align: center; }
+            .product-row.reverse .product-list { text-align: left; }
+            .product-row.reverse .product-list li { justify-content: flex-start; }
+            .testimonials-section { padding: 80px 0; }
+            .testimonials-section .container { padding: 0 16px; }
+            .testimonial-card { padding: 24px; }
+            .product-section--tight .product-row { flex-direction: column-reverse; }
+            .product-section--tight .product-content { text-align: center; }
+            .product-section--tight .product-list { text-align: left; }
+            .product-section--tight .product-list li { justify-content: flex-start; }
+            .product-row .product-content { text-align: center; }
+            .product-row .product-list { text-align: left; }
+            .product-row .product-list li { justify-content: flex-start; }
+            .product-section .btn { display: block; width: fit-content; margin-left: auto; margin-right: auto; }
+            .features-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+            .feature-card { padding: 20px 16px !important; }
+            .feature-icon { width: 46px !important; height: 46px !important; margin-bottom: 14px !important; }
+            .feature-icon svg { width: 24px !important; height: 24px !important; }
+            .feature-card h3 { font-size: 0.95rem !important; margin-bottom: 6px !important; }
+            .feature-card p { font-size: 0.78rem !important; line-height: 1.5 !important; }
+            .nav-logo-mobile { display: block; height: 40px; width: auto; margin-bottom: 16px; }
+            .product-section--grid .product-row { flex-direction: column-reverse; }
+            .product-section--grid .product-content { text-align: center; }
+            .product-section--grid .product-list { text-align: left; }
+            .product-section--grid .product-list li { justify-content: flex-start; }
+            .quality-illus { max-width: 100%; }
+            .quality-card { width: 100%; }
+            .quality-bar { flex-wrap: wrap; }
+            .quality-bar span:first-child { min-width: 100%; margin-bottom: 4px; }
+            .quality-bar .bar-track { flex: 1; min-width: 0; }
+            .testimonials-section .container { max-width: 100%; padding-left: 16px; padding-right: 16px; }
+            .product-illustration { width: 95% !important; margin: 0 auto !important; flex: none !important; }
+            .illus-box { max-width: 100% !important; width: 100% !important; }
+            .quality-illus { width: 100% !important; }
+            .btn-block { width: 95% !important; margin-left: auto !important; margin-right: auto !important; }
+            .ai-illus-inline { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="logos/GTCHat - logo colorida.png" alt="GTchat" class="logo-img">
+            </a>
+            <nav class="nav" id="navMenu">
+                <img src="logos/GTCHat - logo colorida.png" alt="GTchat" class="nav-logo-mobile">
+                <a href="#features">Funcionalidades</a>
+                <a href="#solutions">Soluções</a>
+                <div class="nav-dropdown">
+                    <button type="button" aria-expanded="false">Recursos <small>⌄</small></button>
+                    <div class="test-menu">
+                        <a href="teste1.html"><b>Teste 1</b><span>Produto 3D</span></a>
+                        <a href="teste2.html"><b>Teste 2</b><span>Flat design</span></a>
+                        <a href="teste3.html"><b>Teste 3</b><span>Conversão contábil</span></a>
+                        <a href="laboratorios.html"><b>Laboratórios</b><span>Teste de laboratório</span></a>
+                    </div>
+                </div>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#testimonials">Depoimentos</a>
+                <a href="#cta" class="btn btn-primary btn-header">Solicitar Demonstração</a>
+            </nav>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow" id="heroGlow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    Seu laboratório
+                    <span class="highlight">
+                        <span class="rotating-text" id="rotatingText">
+                            <span class="word active" data-text="mais organizado">mais organizado</span>
+                            <span class="word" data-text="mais produtivo">mais produtivo</span>
+                            <span class="word" data-text="mais inteligente">mais inteligente</span>
+                            <span class="word" data-text="mais profissional">mais profissional</span>
+                            <span class="word" data-text="mais eficiente">mais eficiente</span>
+                            <span class="word" data-text="mais moderno">mais moderno</span>
+                            <span class="word" data-text="mais ágil">mais ágil</span>
+                            <span class="word" data-text="mais conectado">mais conectado</span>
+                            <span class="word" data-text="mais rápido">mais rápido</span>
+                            <span class="word" data-text="mais completo">mais completo</span>
+                        </span>
+                        <span class="cursor"></span>
+                    </span>
+                </h1>
+                <p class="hero-subtitle">com o <strong>GTchat</strong></p>
+                <p class="hero-description">
+                    Automatize agendamentos, envio de resultados e lembretes. Centralize todo atendimento do seu laboratório em uma única plataforma com Inteligência Artificial.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#cta" class="btn btn-primary">
+                        Solicitar Demonstração
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </a>
+                    <a href="#features" class="btn btn-outline">Conheça as Funcionalidades</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGOS SECTION -->
+    <section class="logos-section">
+        <div class="container">
+            <div class="logos-header">
+                <h2>Laboratórios que confiam no <span style="color: var(--green);">GTchat</span></h2>
+                <div class="logos-line"></div>
+            </div>
+        </div>
+        
+        <div class="logos-marquee">
+            <div class="marquee-track marquee-left">
+                <div class="marquee-content">
+                    <img src="logos/logo-samaratino.png" alt="Samaratino">
+                    <img src="logos/logo-awv.png" alt="AWV">
+                    <img src="logos/logo-central.png" alt="Laboratório Central">
+                    <img src="logos/logo-quality.png" alt="Quality Diagnósticos">
+                    <img src="logos/logo-cearense.png" alt="Laboratório Cearense">
+                    <img src="logos/logo-pasteur.png" alt="Pasteur">
+                    <img src="logos/logo-laborclin.png" alt="Laborclin">
+                    <img src="logos/logo-lacliso.png" alt="Lacliso">
+                </div>
+                <div class="marquee-content">
+                    <img src="logos/logo-samaratino.png" alt="Samaratino">
+                    <img src="logos/logo-awv.png" alt="AWV">
+                    <img src="logos/logo-central.png" alt="Laboratório Central">
+                    <img src="logos/logo-quality.png" alt="Quality Diagnósticos">
+                    <img src="logos/logo-cearense.png" alt="Laboratório Cearense">
+                    <img src="logos/logo-pasteur.png" alt="Pasteur">
+                    <img src="logos/logo-laborclin.png" alt="Laborclin">
+                    <img src="logos/logo-lacliso.png" alt="Lacliso">
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="trust-content">
+                <p class="trust-text">Mais de 500 laboratórios já transformaram seu atendimento com o GTChat. Junte-se a eles e ofereça uma experiência moderna, ágil e profissional para seus pacientes.</p>
+                <a href="#cta" class="btn btn-primary">Agendar Demonstração</a>
+            </div>
+        </div>
+
+        <div class="logos-marquee">
+            <div class="marquee-track marquee-right">
+                <div class="marquee-content">
+                    <img src="logos/logo-samaratino.png" alt="Samaratino">
+                    <img src="logos/logo-awv.png" alt="AWV">
+                    <img src="logos/logo-central.png" alt="Laboratório Central">
+                    <img src="logos/logo-quality.png" alt="Quality Diagnósticos">
+                    <img src="logos/logo-cearense.png" alt="Laboratório Cearense">
+                    <img src="logos/logo-pasteur.png" alt="Pasteur">
+                    <img src="logos/logo-laborclin.png" alt="Laborclin">
+                    <img src="logos/logo-lacliso.png" alt="Lacliso">
+                </div>
+                <div class="marquee-content">
+                    <img src="logos/logo-samaratino.png" alt="Samaratino">
+                    <img src="logos/logo-awv.png" alt="AWV">
+                    <img src="logos/logo-central.png" alt="Laboratório Central">
+                    <img src="logos/logo-quality.png" alt="Quality Diagnósticos">
+                    <img src="logos/logo-cearense.png" alt="Laboratório Cearense">
+                    <img src="logos/logo-pasteur.png" alt="Pasteur">
+                    <img src="logos/logo-laborclin.png" alt="Laborclin">
+                    <img src="logos/logo-lacliso.png" alt="Lacliso">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Funcionalidades</span>
+                <h2 class="section-title">Tudo que seu laboratório precisa</h2>
+                <p class="section-subtitle">Soluções completas para automatizar e otimizar cada etapa do atendimento</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#33a50e" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    </div>
+                    <h3>Múltiplos Números</h3>
+                    <p>Centralize todos os números de WhatsApp do laboratório em uma única interface organizada e segura.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#2792ae" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <h3>Atendimento 24h</h3>
+                    <p>IA trabalhando incansavelmente para atender seus pacientes a qualquer hora, mesmo fora do expediente.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#33a50e" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>
+                    </div>
+                    <h3>Agendamentos Automáticos</h3>
+                    <p>Pacotes agendam consultas, coletas e exames automaticamente via WhatsApp sem intervenção manual.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#2792ae" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                    </div>
+                    <h3>Envio de Resultados</h3>
+                    <p>Resultados de exames enviados automaticamente via WhatsApp com total segurança e rastreabilidade.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#33a50e" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    </div>
+                    <h3>Lembretes Automáticos</h3>
+                    <p>Reduza faltas com lembretes automáticos de consultas, jejum e preparos para exames.</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#2792ae" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Segurança Total</h3>
+                    <p>API oficial da Meta com histórico completo, conformidade LGPD e rastreabilidade de todas as interações.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT: QUALITY -->
+    <section class="product-section product-section--grid" id="solutions">
+        <div class="container">
+            <div class="product-row">
+                <div class="product-content reveal">
+                    <span class="product-label">Controle de Qualidade</span>
+                    <h2>Avalie cada atendimento automaticamente</h2>
+                    <p>Nosso agente de IA analisa cada interação e gera notas de satisfação, identificando pontos de melhoria e garantindo o padrão do seu laboratório.</p>
+                    <ul class="product-list">
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Nota de satisfação automática após cada atendimento
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Detecção de reclamações e elogios em tempo real
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Relatórios por atendente e período
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Alertas para atendimentos abaixo do padrão
+                        </li>
+                    </ul>
+                    <a href="#cta" class="btn btn-primary btn-block">Agendar uma Demonstração</a>
+                </div>
+                <div class="product-illustration">
+                    <div class="quality-illus-inline reveal">
+                        <div class="quality-card">
+                            <div class="quality-score">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <span class="score-value" id="scoreValue">0</span>
+                            </div>
+                            <span class="score-label">Satisfação Geral</span>
+                        </div>
+                        <div class="quality-bar-group">
+                            <div class="quality-bar">
+                                <span>Atendimento Satisfatório</span>
+                                <div class="bar-track"><div class="bar-fill" data-width="92"></div></div>
+                                <span class="bar-value">92%</span>
+                            </div>
+                            <div class="quality-bar">
+                                <span>Dúvidas Resolvidas</span>
+                                <div class="bar-track"><div class="bar-fill bar-fill-blue" data-width="97"></div></div>
+                                <span class="bar-value">97%</span>
+                            </div>
+                            <div class="quality-bar">
+                                <span>Clientes Satisfeitos</span>
+                                <div class="bar-track"><div class="bar-fill bar-fill-green" data-width="88"></div></div>
+                                <span class="bar-value">88%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT: AI -->
+    <section class="product-section product-section--grid">
+        <div class="container">
+            <div class="product-row reverse">
+                <div class="product-content reveal">
+                    <span class="product-label blue">Atendimento 24/7</span>
+                    <h2>IA que entende seus pacientes e responde como humano</h2>
+                    <p>Nosso agente de IA não é um bot genérico. Ele é treinado com a base de conhecimento do seu laboratório e responde de forma natural e contextualizada.</p>
+                    <ul class="product-list">
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Triagem inteligente antes do atendimento humano
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Consulta automática de valores e exames disponíveis
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Agendamento de coletas domiciliares
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Agente de qualidade para análise de atendimentos
+                        </li>
+                    </ul>
+                    <a href="#cta" class="btn btn-secondary btn-block">Conheça a IA</a>
+                </div>
+                <div class="product-illustration">
+                    <div class="ai-illus-inline reveal">
+                        <div class="ai-flow" id="aiChatFlow">
+                            <div class="chat-typing" data-step="typing1">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="chat-bubble chat-incoming" data-step="maria">
+                                <strong>Maria:</strong> Olá! Quanto custa o exame de sangue completo?
+                            </div>
+                            <div class="flow-line" data-step="line1"></div>
+                            <div class="ai-brain-box" data-step="brain">
+                                <div class="ai-brain-icon">
+                                    <svg viewBox="0 0 24 24"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zM6 9.91c1.65.78 3.84 1.09 6 1.09s4.35-.31 6-1.09v2.18c-1.65.78-3.84 1.09-6 1.09s-4.35-.31-6-1.09V9.91zM6 14c1.65.78 3.84 1.09 6 1.09s4.35-.31 6-1.09v2.18c-1.65.78-3.84 1.09-6 1.09s-4.35-.31-6-1.09V14z"/></svg>
+                                </div>
+                                <div class="ai-brain-text">
+                                    Consultando base de dados...
+                                    <span>Valores, exames, agendas</span>
+                                </div>
+                            </div>
+                            <div class="flow-line" data-step="line2"></div>
+                            <div class="chat-typing chat-typing-outgoing" data-step="typing2">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="chat-bubble chat-outgoing" data-step="reply">
+                                <strong>Agente de I.A:</strong> Olá Maria! O exame de sangue completo custa R$ 89,00. Posso agendar para amanhã às 8h?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT: MULTICHANNEL -->
+    <section class="product-section product-section--grid product-section--tight">
+        <div class="container">
+            <div class="product-row">
+                <div class="product-content reveal">
+                    <span class="product-label">Multicanal</span>
+                    <h2>WhatsApp, Instagram e Facebook integrados</h2>
+                    <p>Pacientes entram em contato por qualquer canal e tudo converge para o mesmo painel. Sem mensagens perdidas.</p>
+                    <ul class="product-list">
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            WhatsApp com API oficial da Meta
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Instagram Direct centralizado
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Facebook Messenger integrado
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Integração com sistemas laboratoriais
+                        </li>
+                    </ul>
+                    <a href="#cta" class="btn btn-primary btn-block">Ver Integrações</a>
+                </div>
+                <div class="product-illustration">
+                    <div class="multi-illus">
+                        <div class="channel-title">3 Canais, 1 Plataforma</div>
+                        <div class="channel-row">
+                            <div class="channel-pill pill-instagram">
+                                <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </div>
+                            <div class="channel-pill pill-whatsapp pill-whatsapp-main">
+                                <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            </div>
+                            <div class="channel-pill pill-facebook">
+                                <svg viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </div>
+                        </div>
+                        <div class="flow-svg-col">
+                            <svg class="flow-svg" viewBox="0 0 200 50">
+                                <path class="flow-path flow-path-1" d="M35,0 C35,25 100,35 100,50" fill="none" stroke="#6c757d" stroke-width="4" stroke-dasharray="8,5"/>
+                                <path class="flow-path flow-path-2" d="M100,0 L100,50" fill="none" stroke="#6c757d" stroke-width="4" stroke-dasharray="8,5"/>
+                                <path class="flow-path flow-path-3" d="M165,0 C165,25 100,35 100,50" fill="none" stroke="#6c757d" stroke-width="4" stroke-dasharray="8,5"/>
+                            </svg>
+                        </div>
+                        <div class="gtchat-hub">
+                            <img src="logos/GT icon.png" alt="GTchat" class="gtchat-icon-img">
+                        </div>
+                        <div class="flow-down-col">
+                            <svg class="flow-down-svg" viewBox="0 0 4 50" preserveAspectRatio="none">
+                                <line x1="2" y1="0" x2="2" y2="50" stroke="#6c757d" stroke-width="4" stroke-dasharray="8,5" class="flow-path flow-path-down"/>
+                            </svg>
+                        </div>
+                        <div class="gtchat-label-box">
+                            Atendimento Centralizado
+                            <span>em uma única plataforma</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline-section" id="timeline">
+        <div class="timeline-grid" id="timelineGrid"></div>
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Como funciona</span>
+                <h2 class="section-title">Transformação completa do atendimento</h2>
+                <p class="section-subtitle">Do primeiro contato ao resultado entregue, cada etapa é otimizada</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-step">Passo 1</span>
+                        <h3>Paciente entra em contato</h3>
+                        <p>Via WhatsApp, Instagram ou Facebook. A IA recebe e faz a triagem automaticamente, identificando a necessidade.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-step">Passo 2</span>
+                        <h3>Agendamento inteligente</h3>
+                        <p>A IA agenda consultas e coletas verificando disponibilidade, enviando confirmação automática ao paciente.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-step">Passo 3</span>
+                        <h3>Lembretes automáticos</h3>
+                        <p>Pacientes recebem lembretes de jejum, horário e preparos para exames. Redução significativa de faltas.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-step">Passo 4</span>
+                        <h3>Resultado entregue</h3>
+                        <p>Exames prontos são enviados automaticamente via WhatsApp com total segurança e conformidade.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-step">Passo 5</span>
+                        <h3>Acompanhamento e métricas</h3>
+                        <p>Gestores acompanham em tempo real: volume de atendimentos, tempo de resposta e satisfação dos pacientes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Dashboard</span>
+                <h2 class="section-title">Controle total em tempo real</h2>
+                <p class="section-subtitle">Acompanhe métricas essenciais e tome decisões baseadas em dados</p>
+            </div>
+            <div class="dash-mockup reveal">
+                <div class="dash-dots">
+                    <div class="dash-dot r"></div>
+                    <div class="dash-dot y"></div>
+                    <div class="dash-dot g"></div>
+                </div>
+                <div class="dash-grid">
+                    <div class="dash-card">
+                        <div class="dash-card-value">0</div>
+                        <div class="dash-card-label">Atendimentos Hoje</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-value">0%</div>
+                        <div class="dash-card-label">Taxa de Resposta</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-value">0min</div>
+                        <div class="dash-card-label">Tempo Médio</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-value">0</div>
+                        <div class="dash-card-label">Agendamentos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Depoimentos</span>
+                <h2 class="section-title">O que nossos clientes dizem</h2>
+                <p class="section-subtitle">Laboratórios que já transformaram seu atendimento com o GTchat</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <blockquote>"Em nossas empresas, usamos o <strong>GTchat</strong> já há muitos anos, com enorme ganho em agilidade e qualidade do nosso atendimento eletrônico. <strong>É um sistema robusto, confiável, versátil e fácil, que nos permite atender muito mais clientes em muito menos tempo.</strong>"</blockquote>
+                    <div class="testimonial-author">
+                        <img src="logos/avatar-an.png" alt="Rubens Dutra" class="testimonial-avatar-img">
+                        <div>
+                            <div class="testimonial-name">Rubens Dutra | Sócio Administrador</div>
+                            <div class="testimonial-role">Laboratório Analys</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card testimonial-center reveal reveal-delay-2">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <blockquote>"Com o sistema <strong>GTchat</strong>, nosso atendimento tornou mais organizado, dinâmico e prático na empresa! Conseguimos alcançar níveis melhores com o GTchat."</blockquote>
+                    <div class="testimonial-author">
+                        <img src="logos/avatar-jr.png" alt="Rennan Mol" class="testimonial-avatar-img">
+                        <div>
+                            <div class="testimonial-name">Rennan Mol | Sócio Administrador</div>
+                            <div class="testimonial-role">Laboratório José Roberto</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-3">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <blockquote>"Tenho utilizado o <strong>GTchat</strong> na comunicação com os clientes e envio de resultados há 4 anos e meio, e minha experiência tem sido extremamente positiva ao longo desse tempo. <strong>O sistema tem contribuído de forma significativa para melhorar a agilidade no atendimento aos nossos clientes.</strong>"</blockquote>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, var(--blue), var(--blue-dark));">LC</div>
+                        <div>
+                            <div class="testimonial-name">Henrique | Proprietário</div>
+                            <div class="testimonial-role">Laboratório Central</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEETING FORM SECTION -->
+    <section class="meeting-section" id="meeting">
+        <div class="container">
+            <div class="meeting-row">
+                <div class="meeting-content reveal">
+                    <span class="section-label">Agende uma reunião</span>
+                    <h2>É hora de levar o atendimento da sua empresa para o próximo nível!</h2>
+                    <p>Solicite uma demonstração gratuita e veja na prática como o GTchat pode impulsionar o seu negócio.</p>
+                    <ul class="meeting-benefits">
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Demonstração personalizada para seu laboratório
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Sem compromisso
+                        </li>
+                        <li>
+                            <span class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+                            Resposta em até 24 horas
+                        </li>
+                    </ul>
+                </div>
+                <div class="meeting-form-wrapper reveal">
+                    <form class="meeting-form" id="meetingForm">
+                        <div class="form-group">
+                            <label for="name">Nome completo *</label>
+                            <input type="text" id="name" name="name" required placeholder="Seu nome">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail corporativo *</label>
+                            <input type="email" id="email" name="email" required placeholder="seu@email.com.br">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">WhatsApp *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Nome do laboratório *</label>
+                            <input type="text" id="company" name="company" required placeholder="Nome do laboratório">
+                        </div>
+                        <div class="form-group">
+                            <label for="employees">Número de atendentes</label>
+                            <select id="employees" name="employees">
+                                <option value="">Selecione</option>
+                                <option value="1-5">1 a 5</option>
+                                <option value="6-15">6 a 15</option>
+                                <option value="16-30">16 a 30</option>
+                                <option value="30+">Mais de 30</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Agendar Demonstração Gratuita
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </button>
+                        <p class="form-note">Ao enviar, você concorda com nossa Política de Privacidade.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para transformar<br>o atendimento do seu laboratório?</h2>
+                <p>Comece hoje mesmo a usar o GTChat e leve a comunicação do seu laboratório para o próximo nível.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-white">
+                        Solicitar Demonstração
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </a>
+                    <a href="#" class="btn btn-outline" style="border-color: white; color: white;">Fale com um Consultor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="color: white;">
+                        <img src="logos/GTChat - logo branca.png" alt="GTchat" class="logo-img" style="filter: brightness(0) invert(1);">
+                    </a>
+                    <p>Plataforma de automação e atendimento com Inteligência Artificial via WhatsApp. Transformando a comunicação de laboratórios em processos inteligentes.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produto</h4>
+                    <ul>
+                        <li><a href="#">Atendimento Centralizado</a></li>
+                        <li><a href="#">Inteligência Artificial</a></li>
+                        <li><a href="#">Multicanal</a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Integrações</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Casos de Sucesso</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Suporte</h4>
+                    <ul>
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Status do Sistema</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GTChat - Opus127 Gestão e Tecnologia Ltda. Todos os direitos reservados.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('header');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Mobile menu
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu on link click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Dropdown functionality
+        const navDropdown = document.querySelector('.nav-dropdown');
+        if (navDropdown) {
+            const trigger = navDropdown.querySelector('button');
+            trigger.addEventListener('click', event => {
+                event.stopPropagation();
+                const open = navDropdown.classList.toggle('open');
+                trigger.setAttribute('aria-expanded', String(open));
+            });
+            document.addEventListener('click', () => {
+                navDropdown.classList.remove('open');
+                trigger.setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Typewriter effect - robust loop
+        (function() {
+            const words = document.querySelectorAll('#rotatingText .word');
+            let currentIndex = 0;
+            let isDeleting = false;
+            let charIndex = 0;
+            
+            // Store original texts
+            const texts = [];
+            words.forEach(word => {
+                texts.push(word.getAttribute('data-text'));
+            });
+
+            function type() {
+                const currentText = texts[currentIndex];
+                
+                if (isDeleting) {
+                    charIndex--;
+                    words[currentIndex].textContent = currentText.substring(0, charIndex);
+                } else {
+                    charIndex++;
+                    words[currentIndex].textContent = currentText.substring(0, charIndex);
+                }
+
+                let delay = isDeleting ? 25 : 70;
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    delay = 1200;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    words[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % texts.length;
+                    words[currentIndex].classList.add('active');
+                    words[currentIndex].textContent = '';
+                    delay = 200;
+                }
+
+                setTimeout(type, delay);
+            }
+
+            type();
+        })();
+
+        // Timeline animation - line descends with scroll
+        (function() {
+            const timeline = document.querySelector('.timeline');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            if (!timeline || !timelineItems.length) return;
+
+            function updateTimeline() {
+                const rect = timeline.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Start when top of section reaches 40% from top of viewport
+                const triggerPoint = windowHeight * 0.4;
+                const timelineTop = rect.top;
+                const timelineBottom = rect.bottom;
+                const timelineHeight = rect.height;
+                
+                // Calculate progress (0 to 1) based on scroll
+                const scrollRange = timelineHeight;
+                const scrolled = triggerPoint - timelineTop;
+                const progress = Math.max(0, Math.min(1, scrolled / scrollRange));
+                
+                if (timelineTop < triggerPoint && timelineBottom > windowHeight * 0.2) {
+                    timeline.classList.add('animate');
+                    
+                    // Update line progress via CSS variable
+                    const lineProgress = 100 - (progress * 100);
+                    timeline.style.setProperty('--line-progress', lineProgress + '%');
+                    timeline.style.setProperty('--arrow-top', (progress * 100) + '%');
+                    
+                    // Show items based on progress
+                    const itemCount = timelineItems.length;
+                    const visibleCount = Math.ceil(progress * itemCount);
+                    
+                    timelineItems.forEach((item, index) => {
+                        if (index < visibleCount) {
+                            item.classList.add('visible');
+                            item.style.opacity = '1';
+                        } else {
+                            item.classList.remove('visible');
+                            item.style.opacity = '0';
+                        }
+                    });
+                } else if (timelineTop > windowHeight) {
+                    // Reset when scrolling back up
+                    timeline.classList.remove('animate');
+                    timeline.style.setProperty('--line-progress', '100%');
+                    timeline.style.setProperty('--arrow-top', '0%');
+                    timelineItems.forEach(item => {
+                        item.classList.remove('visible');
+                        item.style.opacity = '0';
+                    });
+                }
+            }
+
+            window.addEventListener('scroll', updateTimeline);
+            updateTimeline();
+        })();
+
+        // Dashboard counter animation - bidirectional
+        (function() {
+            const dashCards = document.querySelectorAll('.dash-card-value');
+            const dashboard = document.querySelector('.dashboard-section');
+            let hasAnimated = false;
+            let animationFrame = null;
+            
+            const targets = [
+                { value: 1247, suffix: '' },
+                { value: 89, suffix: '%' },
+                { value: 2, suffix: 'min' },
+                { value: 342, suffix: '' }
+            ];
+
+            function animateCounters() {
+                const startTime = performance.now();
+                const duration = 2500;
+
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+
+                    dashCards.forEach((card, index) => {
+                        const target = targets[index].value;
+                        const suffix = targets[index].suffix;
+                        card.textContent = Math.floor(target * eased) + suffix;
+                    });
+
+                    if (progress < 1) {
+                        animationFrame = requestAnimationFrame(update);
+                    } else {
+                        hasAnimated = true;
+                    }
+                }
+
+                animationFrame = requestAnimationFrame(update);
+            }
+
+            function resetCounters() {
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame);
+                }
+                dashCards.forEach((card, index) => {
+                    card.textContent = '0' + targets[index].suffix;
+                });
+                hasAnimated = false;
+            }
+
+            function checkDashboard() {
+                if (!dashboard) return;
+                
+                const rect = dashboard.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Start when top of section reaches 30% from top of viewport
+                const triggerPoint = windowHeight * 0.3;
+                
+                if (rect.top < triggerPoint && rect.bottom > 0) {
+                    if (!hasAnimated) {
+                        animateCounters();
+                    }
+                } else if (rect.top > windowHeight) {
+                    resetCounters();
+                }
+            }
+
+            window.addEventListener('scroll', checkDashboard);
+            checkDashboard();
+        })();
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .timeline-item').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Chat animation sequence
+        const aiChatFlow = document.getElementById('aiChatFlow');
+        if (aiChatFlow) {
+            const chatSteps = aiChatFlow.querySelectorAll('[data-step]');
+            
+            const runChatSequence = () => {
+                const typing1 = aiChatFlow.querySelector('[data-step="typing1"]');
+                const maria = aiChatFlow.querySelector('[data-step="maria"]');
+                const line1 = aiChatFlow.querySelector('[data-step="line1"]');
+                const brain = aiChatFlow.querySelector('[data-step="brain"]');
+                const line2 = aiChatFlow.querySelector('[data-step="line2"]');
+                const typing2 = aiChatFlow.querySelector('[data-step="typing2"]');
+                const reply = aiChatFlow.querySelector('[data-step="reply"]');
+
+                chatSteps.forEach(el => {
+                    el.classList.remove('visible', 'hidden');
+                });
+                aiChatFlow.classList.add('chat-active');
+
+                // 0s: typing indicator appears
+                typing1.classList.add('visible');
+
+                // +1.5s: hide typing, show Maria
+                setTimeout(() => {
+                    typing1.classList.replace('visible', 'hidden');
+                    maria.classList.add('visible');
+                }, 1500);
+
+                // +0.8s: show flow line 1
+                setTimeout(() => {
+                    line1.classList.add('visible');
+                }, 2300);
+
+                // +0.8s: show brain
+                setTimeout(() => {
+                    brain.classList.add('visible');
+                }, 3100);
+
+                // +1.0s: show flow line 2
+                setTimeout(() => {
+                    line2.classList.add('visible');
+                }, 4100);
+
+                // +1.0s: show typing 2
+                setTimeout(() => {
+                    typing2.classList.add('visible');
+                }, 5100);
+
+                // +1.5s: hide typing 2, show reply
+                setTimeout(() => {
+                    typing2.classList.replace('visible', 'hidden');
+                    reply.classList.add('visible');
+                }, 6600);
+            };
+
+            let chatPlayed = false;
+            const chatObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !chatPlayed) {
+                        chatPlayed = true;
+                        runChatSequence();
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            chatObserver.observe(aiChatFlow.closest('.product-section'));
+        }
+
+        // Quality section animations
+        const scoreEl = document.getElementById('scoreValue');
+        const barFills = document.querySelectorAll('.quality-illus-inline .bar-fill');
+        let qualityPlayed = false;
+
+        const animateScore = (target) => {
+            let current = 0;
+            const step = target / 40;
+            const interval = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(interval);
+                }
+                scoreEl.textContent = current.toFixed(1);
+            }, 30);
+        };
+
+        const animateBars = () => {
+            barFills.forEach((bar, i) => {
+                setTimeout(() => {
+                    bar.style.width = bar.dataset.width + '%';
+                }, i * 300);
+            });
+        };
+
+        const qualitySection = document.querySelector('.quality-illus-inline');
+        if (qualitySection) {
+            const qualityObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !qualityPlayed) {
+                        qualityPlayed = true;
+                        animateScore(9.2);
+                        animateBars();
+                    }
+                });
+            }, { threshold: 0.4 });
+            qualityObserver.observe(qualitySection.closest('.product-section'));
+        }
+
+        // Hero grid + glow effect
+        (function() {
+            const section = document.querySelector('.hero');
+            const glow = document.getElementById('heroGlow');
+            if (!section) return;
+
+            section.addEventListener('mousemove', (e) => {
+                const rect = section.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                section.style.setProperty('--hero-mouse-x', x + '%');
+                section.style.setProperty('--hero-mouse-y', y + '%');
+                if (glow) {
+                    glow.style.left = e.clientX - rect.left + 'px';
+                    glow.style.top = e.clientY - rect.top + 'px';
+                }
+            });
+
+            section.addEventListener('mouseleave', () => {
+                if (glow) {
+                    glow.style.opacity = '0';
+                    glow.style.transition = 'opacity 0.4s ease';
+                }
+            });
+
+            section.addEventListener('mouseenter', () => {
+                if (glow) {
+                    glow.style.opacity = '1';
+                    glow.style.transition = 'opacity 0.4s ease';
+                }
+            });
+        })();
+
+        // Timeline grid fish-eye effect
+        (function() {
+            const section = document.querySelector('.timeline-section');
+            const grid = document.getElementById('timelineGrid');
+            if (!section || !grid) return;
+
+            section.addEventListener('mousemove', (e) => {
+                const rect = section.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                section.style.setProperty('--mouse-x', x + '%');
+                section.style.setProperty('--mouse-y', y + '%');
+            });
+
+            section.addEventListener('mouseleave', () => {
+                section.style.setProperty('--mouse-x', '50%');
+                section.style.setProperty('--mouse-y', '50%');
+            });
+        })();
+
+    </script>
+
+</body>
+</html>
